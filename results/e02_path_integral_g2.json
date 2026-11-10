@@ -1,0 +1,44 @@
+{
+  "name": "e02_path_integral_g2",
+  "status": "ok",
+  "metrics": {
+    "alpha_inv": 137.035999177,
+    "a_one_loop": 0.0011614097320976644,
+    "a_five_loop": 0.0011596521777469094,
+    "a_experiment": 0.00115965218059,
+    "relative_error": 2.451675261694946e-09,
+    "qed_terms": [
+      0.0011614097320976644,
+      -1.7723050604632223e-06,
+      1.4804203631557845e-08,
+      -5.566798916586271e-11,
+      4.5136569961417216e-13
+    ],
+    "hadronic": 1.693e-12,
+    "electroweak": 2.97e-14
+  },
+  "checks": [
+    {
+      "label": "5-loop QED reproduces CODATA g-2 (rel<1e-8)",
+      "passed": true,
+      "detail": "a_calc=1.159652177746909e-03 vs exp=1.159652180590000e-03, rel=2.45e-09"
+    },
+    {
+      "label": "one-loop Schwinger limit is alpha/2pi",
+      "passed": true,
+      "detail": "a_1=1.161409732097664e-03"
+    },
+    {
+      "label": "series converges (|term5| < |term1|/1e6)",
+      "passed": true,
+      "detail": "term1=1.161e-03, term5=4.514e-13"
+    },
+    {
+      "label": "hadronic+EW corrections are below 1e-11",
+      "passed": true,
+      "detail": "1.723e-12"
+    }
+  ],
+  "seconds": 0.0,
+  "error": null
+}

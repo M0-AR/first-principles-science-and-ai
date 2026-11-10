@@ -1,0 +1,46 @@
+{
+  "name": "e08_fourier_dtmf",
+  "status": "ok",
+  "metrics": {
+    "keys_tested": 16,
+    "snr_levels": [
+      null,
+      20,
+      10,
+      5
+    ],
+    "fft_peak_error": [
+      0.0,
+      0.0029940119760479044
+    ]
+  },
+  "checks": [
+    {
+      "label": "DTMF decode at SNR=None",
+      "passed": true,
+      "detail": "16/16 keys"
+    },
+    {
+      "label": "DTMF decode at SNR=20",
+      "passed": true,
+      "detail": "16/16 keys"
+    },
+    {
+      "label": "DTMF decode at SNR=10",
+      "passed": true,
+      "detail": "16/16 keys"
+    },
+    {
+      "label": "DTMF decode at SNR=5",
+      "passed": true,
+      "detail": "16/16 keys"
+    },
+    {
+      "label": "FFT peak frequencies within 1.5%",
+      "passed": true,
+      "detail": "relative errors=[np.float64(0.0), np.float64(0.00299)]"
+    }
+  ],
+  "seconds": 0.04,
+  "error": null
+}

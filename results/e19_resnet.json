@@ -1,0 +1,30 @@
+{
+  "name": "e19_resnet",
+  "status": "ok",
+  "metrics": {
+    "grad_plain": 1.7908687865997308e-09,
+    "grad_res": 10.122095108032227,
+    "grad_ratio": 1.7692669032309483e-10,
+    "acc_plain": 0.920199990272522,
+    "acc_residual": 0.9557999968528748
+  },
+  "checks": [
+    {
+      "label": "residual net preserves first-layer gradients at depth 12",
+      "passed": true,
+      "detail": "grad_plain=1.79e-09, grad_res=1.01e+01, ratio=0.0x"
+    },
+    {
+      "label": "both networks learn MNIST",
+      "passed": true,
+      "detail": "plain=0.920, residual=0.956"
+    },
+    {
+      "label": "residual net is more accurate at equal budget",
+      "passed": true,
+      "detail": "residual=0.956 vs plain=0.920"
+    }
+  ],
+  "seconds": 199.05,
+  "error": null
+}

@@ -1,0 +1,46 @@
+{
+  "name": "e14_riemann_gue",
+  "status": "ok",
+  "metrics": {
+    "zeros_used": 20000,
+    "ks_gue": 0.024139435737516896,
+    "ks_poisson": 0.303902422363514,
+    "ks_ratio": 12.589458414357077,
+    "pair_correlation_error": 0.035815297124001444,
+    "first_zero": 14.134725142
+  },
+  "checks": [
+    {
+      "label": "first 10 zeros match published values",
+      "passed": true,
+      "detail": "max diff=0.00e+00"
+    },
+    {
+      "label": "unfolded mean spacing is 1",
+      "passed": true,
+      "detail": "mean=1.0000, N=19999"
+    },
+    {
+      "label": "spacings reject Poisson",
+      "passed": true,
+      "detail": "KS(poisson)=0.3039"
+    },
+    {
+      "label": "spacings agree with the GUE Wigner surmise",
+      "passed": true,
+      "detail": "KS(GUE)=0.0241"
+    },
+    {
+      "label": "GUE fit beats Poisson by >10x",
+      "passed": true,
+      "detail": "ratio=12.6"
+    },
+    {
+      "label": "Montgomery pair correlation matches GUE prediction",
+      "passed": true,
+      "detail": "mean|empirical - Montgomery|=0.036"
+    }
+  ],
+  "seconds": 0.26,
+  "error": null
+}

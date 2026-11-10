@@ -1,0 +1,60 @@
+{
+  "name": "e04_order_book",
+  "status": "ok",
+  "metrics": {
+    "historical": {
+      "fit": {
+        "slope": 34.5893900018146,
+        "se": 0.8161578263198012,
+        "t": 42.3807612772449,
+        "r2": 0.3410072074414189,
+        "n": 3473
+      },
+      "n": 3474,
+      "spread_bps": 0.8482566861661079,
+      "mean_depth": 241318.62464018422,
+      "price_range": [
+        172.76999999999998,
+        315.19
+      ]
+    },
+    "live": {
+      "fit": {
+        "slope": 1.2209748766718582,
+        "se": 0.1979069717066881,
+        "t": 6.16943842929105,
+        "r2": 0.5761555434364114,
+        "n": 30
+      },
+      "n": 31,
+      "price": [
+        73136.015,
+        73241.38500000001
+      ]
+    }
+  },
+  "checks": [
+    {
+      "label": "OFI predicts returns with positive slope",
+      "passed": true,
+      "detail": "slope=34.589 bps per unit OFI/Q, t=42.4"
+    },
+    {
+      "label": "OFI slope is statistically strong (t>10)",
+      "passed": true,
+      "detail": "t=42.4"
+    },
+    {
+      "label": "OFI explains a meaningful share of return variance",
+      "passed": true,
+      "detail": "R2=0.341, n=3473"
+    },
+    {
+      "label": "live Coinbase OFI predicts next-tick return (t>2)",
+      "passed": true,
+      "detail": "slope=1.221, t=6.2, n=30"
+    }
+  ],
+  "seconds": 133.65,
+  "error": null
+}

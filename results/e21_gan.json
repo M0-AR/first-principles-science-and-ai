@@ -1,0 +1,40 @@
+{
+  "name": "e21_gan",
+  "status": "ok",
+  "metrics": {
+    "class_fractions": [
+      0.13133333333333333,
+      0.154,
+      0.028666666666666667,
+      0.04033333333333333,
+      0.078,
+      0.08433333333333333,
+      0.12866666666666668,
+      0.042,
+      0.08566666666666667,
+      0.227
+    ],
+    "diversity": 0.8413748145103455,
+    "D_real": 0.7527294158935547,
+    "D_fake": 0.33162519335746765
+  },
+  "checks": [
+    {
+      "label": "generator covers all ten digit classes (each >1% of samples)",
+      "passed": true,
+      "detail": "class fractions=[0.131, 0.154, 0.029, 0.04, 0.078, 0.084, 0.129, 0.042, 0.086, 0.227]"
+    },
+    {
+      "label": "no mode collapse (diversity > 50% of real)",
+      "passed": true,
+      "detail": "diversity ratio=0.841"
+    },
+    {
+      "label": "discriminator is not saturated",
+      "passed": true,
+      "detail": "D(real)=0.753, D(fake)=0.332"
+    }
+  ],
+  "seconds": 26.66,
+  "error": null
+}

@@ -1,0 +1,11 @@
+services:
+  lab:
+    build: .
+    volumes:
+      - ./data:/lab/data
+      - ./results:/lab/results
+    command: ["python", "scripts/run_all.py", "--all"]
+    deploy:
+      resources:
+        limits:
+          memory: 8g

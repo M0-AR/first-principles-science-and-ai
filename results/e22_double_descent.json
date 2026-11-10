@@ -1,0 +1,55 @@
+{
+  "name": "e22_double_descent",
+  "status": "ok",
+  "metrics": {
+    "widths": [
+      20,
+      40,
+      80,
+      160,
+      320,
+      500,
+      700,
+      1000,
+      1400,
+      2000,
+      3000
+    ],
+    "test_errors": [
+      0.23148148148148148,
+      0.1388888888888889,
+      0.06666666666666667,
+      0.04259259259259259,
+      0.05555555555555555,
+      0.11296296296296296,
+      0.18333333333333332,
+      0.40185185185185185,
+      0.6111111111111112,
+      0.4148148148148148,
+      0.3296296296296296
+    ],
+    "n_train": 1257,
+    "peak_m": 1400,
+    "peak_error": 0.6111111111111112,
+    "tail_error": 0.37222222222222223
+  },
+  "checks": [
+    {
+      "label": "test error peaks near the interpolation threshold",
+      "passed": true,
+      "detail": "peak at m=1400, n_train=1257"
+    },
+    {
+      "label": "double descent is pronounced (peak > 1.5x tail)",
+      "passed": true,
+      "detail": "peak=0.611, tail=0.372"
+    },
+    {
+      "label": "error falls again in the overparameterized regime",
+      "passed": true,
+      "detail": "err(m=3000)=0.330 vs peak=0.611"
+    }
+  ],
+  "seconds": 3.14,
+  "error": null
+}

@@ -1,0 +1,44 @@
+{
+  "name": "e17_alphazero",
+  "status": "ok",
+  "metrics": {
+    "selfplay_positions": 9944,
+    "losses": [
+      2.3662754436592004,
+      2.0118810991188147,
+      1.9554526542688344,
+      1.9233601433890206,
+      1.9015872989382063,
+      1.8849527324948991
+    ],
+    "losses_iter1": [
+      2.7516534905279837,
+      2.4854448033917333,
+      2.3382592739597445,
+      2.291192393149099,
+      2.258239484602405,
+      2.235101071096236
+    ],
+    "vs_random": {
+      "score": 0.89,
+      "wins": 84,
+      "draws": 10
+    },
+    "sims_selfplay": 30,
+    "sims_eval": 40
+  },
+  "checks": [
+    {
+      "label": "trained agent beats random play (win=1, draw=0.5)",
+      "passed": true,
+      "detail": "score=0.890 (84 wins, 10 draws / 100)"
+    },
+    {
+      "label": "training loss decreases",
+      "passed": true,
+      "detail": "loss 2.366 -> 1.885"
+    }
+  ],
+  "seconds": 4.39,
+  "error": null
+}

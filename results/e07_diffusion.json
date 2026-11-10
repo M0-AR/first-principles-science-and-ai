@@ -1,0 +1,38 @@
+{
+  "name": "e07_diffusion",
+  "status": "ok",
+  "metrics": {
+    "mode_fractions": [
+      0.124,
+      0.122,
+      0.128,
+      0.1025,
+      0.1385,
+      0.1385,
+      0.118,
+      0.1285
+    ],
+    "spread": 1.4254918098449707,
+    "n_samples": 2000,
+    "diffusion_steps": 400
+  },
+  "checks": [
+    {
+      "label": "all 8 modes are covered",
+      "passed": true,
+      "detail": "mode fractions=[0.124, 0.122, 0.128, 0.102, 0.138, 0.138, 0.118, 0.128]"
+    },
+    {
+      "label": "each mode has a generated sample within 0.5",
+      "passed": true,
+      "detail": "max nearest distance=0.020"
+    },
+    {
+      "label": "generated cloud is not collapsed",
+      "passed": true,
+      "detail": "per-axis std=1.425"
+    }
+  ],
+  "seconds": 4.18,
+  "error": null
+}

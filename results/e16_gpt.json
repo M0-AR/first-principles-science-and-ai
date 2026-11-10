@@ -1,0 +1,30 @@
+{
+  "name": "e16_gpt",
+  "status": "ok",
+  "metrics": {
+    "bits_per_char": 2.2911462783813477,
+    "steps": 2500,
+    "params": 440699,
+    "final_train_loss": 1.5295667147636414,
+    "sample": "\nHerefore and \nI have my voin--\nBe a some-upon to grave this clent's and prity.\n\nAUTUS:\nBut it chancient deful, before the protor unfey\nhang days to my ruith a-grough not shall perlose\nThese shy plate"
+  },
+  "checks": [
+    {
+      "label": "beats the best Markov chain from E12 (<2.408 bits/char)",
+      "passed": true,
+      "detail": "Transformer=2.291 bits/char"
+    },
+    {
+      "label": "learned a diverse character distribution",
+      "passed": true,
+      "detail": "36 distinct chars in 300 generated"
+    },
+    {
+      "label": "generated text has word structure",
+      "passed": true,
+      "detail": "space ratio=0.160"
+    }
+  ],
+  "seconds": 60.19,
+  "error": null
+}

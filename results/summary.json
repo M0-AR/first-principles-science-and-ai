@@ -1,0 +1,1158 @@
+[
+  {
+    "name": "e01_least_action",
+    "status": "ok",
+    "seconds": 0.61,
+    "checks": [
+      {
+        "label": "free-particle discrete minimum is a straight line",
+        "passed": true,
+        "detail": "max|dx|=3.61e-15"
+      },
+      {
+        "label": "gradient descent reaches the straight line",
+        "passed": true,
+        "detail": "max|GD-exact|=2.36e-10"
+      },
+      {
+        "label": "free-particle action is 1/2",
+        "passed": true,
+        "detail": "S=0.500000000000"
+      },
+      {
+        "label": "oscillator discrete minimum matches sin(wt)/sin(w)",
+        "passed": true,
+        "detail": "max|dx|=1.41e-05"
+      },
+      {
+        "label": "gradient descent matches the oscillator minimum",
+        "passed": true,
+        "detail": "max|GD-exact|=7.19e-08"
+      },
+      {
+        "label": "oscillator action is stationary",
+        "passed": true,
+        "detail": "dS=9.55e-15"
+      }
+    ],
+    "metrics": {
+      "grid_points": 64,
+      "dt": 0.015625,
+      "gd_steps": 20000,
+      "learning_rate": 0.00703125
+    }
+  },
+  {
+    "name": "e02_path_integral_g2",
+    "status": "ok",
+    "seconds": 0.0,
+    "checks": [
+      {
+        "label": "5-loop QED reproduces CODATA g-2 (rel<1e-8)",
+        "passed": true,
+        "detail": "a_calc=1.159652177746909e-03 vs exp=1.159652180590000e-03, rel=2.45e-09"
+      },
+      {
+        "label": "one-loop Schwinger limit is alpha/2pi",
+        "passed": true,
+        "detail": "a_1=1.161409732097664e-03"
+      },
+      {
+        "label": "series converges (|term5| < |term1|/1e6)",
+        "passed": true,
+        "detail": "term1=1.161e-03, term5=4.514e-13"
+      },
+      {
+        "label": "hadronic+EW corrections are below 1e-11",
+        "passed": true,
+        "detail": "1.723e-12"
+      }
+    ],
+    "metrics": {
+      "alpha_inv": 137.035999177,
+      "a_one_loop": 0.0011614097320976644,
+      "a_five_loop": 0.0011596521777469094,
+      "a_experiment": 0.00115965218059,
+      "relative_error": 2.451675261694946e-09,
+      "qed_terms": [
+        0.0011614097320976644,
+        -1.7723050604632223e-06,
+        1.4804203631557845e-08,
+        -5.566798916586271e-11,
+        4.5136569961417216e-13
+      ],
+      "hadronic": 1.693e-12,
+      "electroweak": 2.97e-14
+    }
+  },
+  {
+    "name": "e03_quantum_grover",
+    "status": "ok",
+    "seconds": 0.0,
+    "checks": [
+      {
+        "label": "Grover n=3 amplifies the marked state",
+        "passed": true,
+        "detail": "p=0.94531 at k=2"
+      },
+      {
+        "label": "Grover n=4 amplifies the marked state",
+        "passed": true,
+        "detail": "p=0.96132 at k=3"
+      },
+      {
+        "label": "Grover n=5 amplifies the marked state",
+        "passed": true,
+        "detail": "p=0.99918 at k=4"
+      },
+      {
+        "label": "Grover n=6 amplifies the marked state",
+        "passed": true,
+        "detail": "p=0.99659 at k=6"
+      },
+      {
+        "label": "n=6 Grover success > 0.99",
+        "passed": true,
+        "detail": "p=0.996586"
+      },
+      {
+        "label": "iterations scale like sqrt(N)",
+        "passed": true,
+        "detail": "k=6 vs pi/4*sqrt(N)=6.28"
+      },
+      {
+        "label": "quantum speedup is quadratic",
+        "passed": true,
+        "detail": "N/k=10.67"
+      }
+    ],
+    "metrics": {
+      "rows": [
+        {
+          "n": 2,
+          "N": 4,
+          "best_k": 1,
+          "p_success": 0.9999999999999996,
+          "classical_queries": 4,
+          "speedup": 4.0
+        },
+        {
+          "n": 3,
+          "N": 8,
+          "best_k": 2,
+          "p_success": 0.9453124999999996,
+          "classical_queries": 8,
+          "speedup": 4.0
+        },
+        {
+          "n": 4,
+          "N": 16,
+          "best_k": 3,
+          "p_success": 0.9613189697265623,
+          "classical_queries": 16,
+          "speedup": 5.333333333333333
+        },
+        {
+          "n": 5,
+          "N": 32,
+          "best_k": 4,
+          "p_success": 0.9991823155432925,
+          "classical_queries": 32,
+          "speedup": 8.0
+        },
+        {
+          "n": 6,
+          "N": 64,
+          "best_k": 6,
+          "p_success": 0.9965856807867991,
+          "classical_queries": 64,
+          "speedup": 10.666666666666666
+        }
+      ]
+    }
+  },
+  {
+    "name": "e04_order_book",
+    "status": "ok",
+    "seconds": 133.65,
+    "checks": [
+      {
+        "label": "OFI predicts returns with positive slope",
+        "passed": true,
+        "detail": "slope=34.589 bps per unit OFI/Q, t=42.4"
+      },
+      {
+        "label": "OFI slope is statistically strong (t>10)",
+        "passed": true,
+        "detail": "t=42.4"
+      },
+      {
+        "label": "OFI explains a meaningful share of return variance",
+        "passed": true,
+        "detail": "R2=0.341, n=3473"
+      },
+      {
+        "label": "live Coinbase OFI predicts next-tick return (t>2)",
+        "passed": true,
+        "detail": "slope=1.221, t=6.2, n=30"
+      }
+    ],
+    "metrics": {
+      "historical": {
+        "fit": {
+          "slope": 34.5893900018146,
+          "se": 0.8161578263198012,
+          "t": 42.3807612772449,
+          "r2": 0.3410072074414189,
+          "n": 3473
+        },
+        "n": 3474,
+        "spread_bps": 0.8482566861661079,
+        "mean_depth": 241318.62464018422,
+        "price_range": [
+          172.76999999999998,
+          315.19
+        ]
+      },
+      "live": {
+        "fit": {
+          "slope": 1.2209748766718582,
+          "se": 0.1979069717066881,
+          "t": 6.16943842929105,
+          "r2": 0.5761555434364114,
+          "n": 30
+        },
+        "n": 31,
+        "price": [
+          73136.015,
+          73241.38500000001
+        ]
+      }
+    }
+  },
+  {
+    "name": "e05_kv_cache",
+    "status": "ok",
+    "seconds": 0.0,
+    "checks": [
+      {
+        "label": "2.5 KV entries per token from source layers",
+        "passed": true,
+        "detail": "entries/token=2.5"
+      },
+      {
+        "label": "356 bytes per KV entry (288 main + 68 index)",
+        "passed": true,
+        "detail": "per-entry=356.0 B (main 288.0 B + index 68.0 B)"
+      },
+      {
+        "label": "890 bytes per token reproduces the published figure",
+        "passed": true,
+        "detail": "bytes/token=890.0"
+      },
+      {
+        "label": "1M-token context fits in under 1 GB",
+        "passed": true,
+        "detail": "0.890 GB"
+      },
+      {
+        "label": "compression vs dense MHA exceeds 1000x",
+        "passed": true,
+        "detail": "6627x vs MHA, 104x vs GQA-1"
+      }
+    ],
+    "metrics": {
+      "layers": 40,
+      "kv_source_layers": [
+        2,
+        8,
+        14,
+        20
+      ],
+      "ratios_at_sources": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "entries_per_token": 2.5,
+      "main_dims": 576,
+      "main_bytes": 288.0,
+      "index_bytes": 68.0,
+      "bytes_per_entry": 356.0,
+      "bytes_per_token": 890.0,
+      "dense_mha_bytes_per_token": 5898240.0,
+      "dense_gqa1_bytes_per_token": 92160.0,
+      "compression_vs_mha": 6627.23595505618,
+      "compression_vs_gqa1": 103.5505617977528,
+      "context_1m_gb": 0.89
+    }
+  },
+  {
+    "name": "e06_ceres",
+    "status": "ok",
+    "seconds": 31.13,
+    "checks": [
+      {
+        "label": "observations fitted at the 2-arcsec noise level",
+        "passed": true,
+        "detail": "RMS residual = 1.30 arcsec over 42 nights"
+      },
+      {
+        "label": "semi-major axis recovered within 2%",
+        "passed": true,
+        "detail": "a = 2.7635 AU vs JPL 2.7693"
+      },
+      {
+        "label": "eccentricity recovered within 0.02",
+        "passed": true,
+        "detail": "e = 0.0797 vs JPL 0.0769"
+      },
+      {
+        "label": "inclination recovered within 1.5 deg",
+        "passed": true,
+        "detail": "|i| = 10.63 deg vs JPL 10.59"
+      },
+      {
+        "label": "11-month position prediction better than 5 arcmin",
+        "passed": true,
+        "detail": "separation = 1.71 arcmin on 1801-12-31"
+      }
+    ],
+    "metrics": {
+      "n_observations": 42,
+      "noise_arcsec": 2.0,
+      "fit_rms_arcsec": 1.3012215732877621,
+      "elements": {
+        "a": 2.7635261707882615,
+        "e": 0.07969526134309753,
+        "i_deg": 10.632597680304539,
+        "Omega_deg": 83.63160800004935,
+        "omega_deg": 65.98045898457963,
+        "M0_deg": 290.6032694195824
+      },
+      "jpl_elements": {
+        "a": 2.769289292,
+        "e": 0.07687465,
+        "i_deg": 10.591277671
+      },
+      "rediscovery_error_arcmin": 1.710152683097256
+    }
+  },
+  {
+    "name": "e07_diffusion",
+    "status": "ok",
+    "seconds": 4.18,
+    "checks": [
+      {
+        "label": "all 8 modes are covered",
+        "passed": true,
+        "detail": "mode fractions=[0.124, 0.122, 0.128, 0.102, 0.138, 0.138, 0.118, 0.128]"
+      },
+      {
+        "label": "each mode has a generated sample within 0.5",
+        "passed": true,
+        "detail": "max nearest distance=0.020"
+      },
+      {
+        "label": "generated cloud is not collapsed",
+        "passed": true,
+        "detail": "per-axis std=1.425"
+      }
+    ],
+    "metrics": {
+      "mode_fractions": [
+        0.124,
+        0.122,
+        0.128,
+        0.1025,
+        0.1385,
+        0.1385,
+        0.118,
+        0.1285
+      ],
+      "spread": 1.4254918098449707,
+      "n_samples": 2000,
+      "diffusion_steps": 400
+    }
+  },
+  {
+    "name": "e08_fourier_dtmf",
+    "status": "ok",
+    "seconds": 0.04,
+    "checks": [
+      {
+        "label": "DTMF decode at SNR=None",
+        "passed": true,
+        "detail": "16/16 keys"
+      },
+      {
+        "label": "DTMF decode at SNR=20",
+        "passed": true,
+        "detail": "16/16 keys"
+      },
+      {
+        "label": "DTMF decode at SNR=10",
+        "passed": true,
+        "detail": "16/16 keys"
+      },
+      {
+        "label": "DTMF decode at SNR=5",
+        "passed": true,
+        "detail": "16/16 keys"
+      },
+      {
+        "label": "FFT peak frequencies within 1.5%",
+        "passed": true,
+        "detail": "relative errors=[np.float64(0.0), np.float64(0.00299)]"
+      }
+    ],
+    "metrics": {
+      "keys_tested": 16,
+      "snr_levels": [
+        null,
+        20,
+        10,
+        5
+      ],
+      "fft_peak_error": [
+        0.0,
+        0.0029940119760479044
+      ]
+    }
+  },
+  {
+    "name": "e09_quantization",
+    "status": "ok",
+    "seconds": 31.62,
+    "checks": [
+      {
+        "label": "INT8 perplexity within 5% of FP32",
+        "passed": true,
+        "detail": "FP32=84.103, INT8=84.097"
+      },
+      {
+        "label": "group-wise INT4 perplexity within 25% of FP32",
+        "passed": true,
+        "detail": "INT4=92.757"
+      },
+      {
+        "label": "group-wise INT4 beats per-tensor INT4",
+        "passed": true,
+        "detail": "grouped=92.757 vs naive=2862.963"
+      },
+      {
+        "label": "weights shrink 4x (INT8) and 8x (INT4)",
+        "passed": true,
+        "detail": "32->8 bits, 32->4 bits"
+      }
+    ],
+    "metrics": {
+      "params": 81912576,
+      "ppl_fp32": 84.10311764646056,
+      "ppl_int8": 84.09733518049627,
+      "ppl_int4": 92.75707599734729,
+      "tokens": 16384,
+      "int8_ratio": 0.9999312455218534,
+      "int4_ratio": 1.1028969982690162,
+      "int4_group": 128,
+      "ppl_int4_naive": 2862.9632739926315
+    }
+  },
+  {
+    "name": "e10_boltzmann",
+    "status": "ok",
+    "seconds": 1.47,
+    "checks": [
+      {
+        "label": "Metropolis reproduces P(E) ~ Omega(E)exp(-E/T)",
+        "passed": true,
+        "detail": "total-variation distance=0.0092"
+      },
+      {
+        "label": "entropy of the typical equilibrium macrostate is larger",
+        "passed": true,
+        "detail": "S(E=-24)=3.47 k_B vs S_ordered=0.69 k_B"
+      },
+      {
+        "label": "equipartition <KE> = kT (2D)",
+        "passed": true,
+        "detail": "<KE>=0.978 vs kT=1.0"
+      },
+      {
+        "label": "speeds follow Maxwell-Boltzmann (Rayleigh)",
+        "passed": true,
+        "detail": "KS p-value=0.958"
+      }
+    ],
+    "metrics": {
+      "ising_tv": 0.009185724909185811,
+      "S_eq": 3.4657359027997265,
+      "S_ordered": 0.6931471805599453,
+      "equipartition": 0.9781471994664207,
+      "rayleigh_ks_p": 0.9577478035741168
+    }
+  },
+  {
+    "name": "e11_gps",
+    "status": "ok",
+    "seconds": 0.0,
+    "checks": [
+      {
+        "label": "parsed a full GPS constellation",
+        "passed": true,
+        "detail": "32 satellites"
+      },
+      {
+        "label": "semi-major axis is GPS-like (26,560 km +- 400)",
+        "passed": true,
+        "detail": "a_mean=26560 km"
+      },
+      {
+        "label": "orbital period is ~11h58m",
+        "passed": true,
+        "detail": "T=718.0 min"
+      },
+      {
+        "label": "relativistic clock offset is ~38.5 us/day",
+        "passed": true,
+        "detail": "offset=38.50 us/day"
+      },
+      {
+        "label": "receiver position recovered to metres",
+        "passed": true,
+        "detail": "3D error=0.99 m (n=18, GDOP=1.4)"
+      },
+      {
+        "label": "receiver clock bias recovered to nanoseconds",
+        "passed": true,
+        "detail": "clock error=0.45 ns (truth 81000 ns)"
+      }
+    ],
+    "metrics": {
+      "n_satellites": 32,
+      "mean_radius_km": 26560.142722529992,
+      "period_min": 717.968411076511,
+      "relativistic_us_per_day": 38.50472918245147,
+      "position_error_m": 0.9871237021169093,
+      "clock_error_ns": 0.4511746920580921,
+      "clock_bias_ns": 81000.0
+    }
+  },
+  {
+    "name": "e12_markov_shakespeare",
+    "status": "ok",
+    "seconds": 24.8,
+    "checks": [
+      {
+        "label": "context helps: best order beats the bigram by >20%",
+        "passed": true,
+        "detail": "2.408 vs 3.586 bits/char (order 4)"
+      },
+      {
+        "label": "best context length is 3-5 characters",
+        "passed": true,
+        "detail": "argmin at order 4"
+      },
+      {
+        "label": "beyond the data limit, longer context overfits",
+        "passed": true,
+        "detail": "order6=2.567 vs best=2.408"
+      }
+    ],
+    "metrics": {
+      "bits_per_char": {
+        "1": 3.58616443828768,
+        "2": 2.956391890664974,
+        "3": 2.559041345799798,
+        "4": 2.407571193768077,
+        "5": 2.4497659707372756,
+        "6": 2.566854207783702
+      },
+      "best_order": 4,
+      "corpus_bytes": 1115394,
+      "vocabulary": 65
+    }
+  },
+  {
+    "name": "e13_moe",
+    "status": "ok",
+    "seconds": 0.6,
+    "checks": [
+      {
+        "label": "MoE matches dense accuracy within 3 points",
+        "passed": true,
+        "detail": "dense=0.947, MoE=0.909"
+      },
+      {
+        "label": "MoE routing entropy > 2 bits",
+        "passed": true,
+        "detail": "entropy=3.00 bits"
+      },
+      {
+        "label": "all experts are used (min usage > 2%)",
+        "passed": true,
+        "detail": "usage=[0.12300000339746475, 0.10899999737739563, 0.12300000339746475, 0.12700000405311584, 0.12099999934434891, 0.12600000202655792, 0.13199999928474426, 0.13899999856948853]"
+      },
+      {
+        "label": "only k of n experts are active per token",
+        "passed": true,
+        "detail": "active fraction=0.25"
+      }
+    ],
+    "metrics": {
+      "dense_acc": 0.9466666579246521,
+      "moe_acc": 0.9088888764381409,
+      "routing_entropy_bits": 2.996894598007202,
+      "expert_usage": [
+        0.12338234484195709,
+        0.1085304319858551,
+        0.12306324392557144,
+        0.1265546828508377,
+        0.1213771402835846,
+        0.1263405978679657,
+        0.13203273713588715,
+        0.13871878385543823
+      ],
+      "active_compute_fraction": 0.25
+    }
+  },
+  {
+    "name": "e14_riemann_gue",
+    "status": "ok",
+    "seconds": 0.26,
+    "checks": [
+      {
+        "label": "first 10 zeros match published values",
+        "passed": true,
+        "detail": "max diff=0.00e+00"
+      },
+      {
+        "label": "unfolded mean spacing is 1",
+        "passed": true,
+        "detail": "mean=1.0000, N=19999"
+      },
+      {
+        "label": "spacings reject Poisson",
+        "passed": true,
+        "detail": "KS(poisson)=0.3039"
+      },
+      {
+        "label": "spacings agree with the GUE Wigner surmise",
+        "passed": true,
+        "detail": "KS(GUE)=0.0241"
+      },
+      {
+        "label": "GUE fit beats Poisson by >10x",
+        "passed": true,
+        "detail": "ratio=12.6"
+      },
+      {
+        "label": "Montgomery pair correlation matches GUE prediction",
+        "passed": true,
+        "detail": "mean|empirical - Montgomery|=0.036"
+      }
+    ],
+    "metrics": {
+      "zeros_used": 20000,
+      "ks_gue": 0.024139435737516896,
+      "ks_poisson": 0.303902422363514,
+      "ks_ratio": 12.589458414357077,
+      "pair_correlation_error": 0.035815297124001444,
+      "first_zero": 14.134725142
+    }
+  },
+  {
+    "name": "e15_rag",
+    "status": "ok",
+    "seconds": 3.13,
+    "checks": [
+      {
+        "label": "BM25 finds the right category in the top-5 >35% of the time",
+        "passed": true,
+        "detail": "recall@5=0.375 (chance=0.25)"
+      },
+      {
+        "label": "top-1 retrieved document shares the category >40% of the time",
+        "passed": true,
+        "detail": "top-1 category accuracy=0.457 (chance=0.050)"
+      },
+      {
+        "label": "BM25 is competitive with TF-IDF cosine",
+        "passed": true,
+        "detail": "BM25=0.375, TF-IDF=0.439"
+      }
+    ],
+    "metrics": {
+      "bm25_recall5": 0.3753333333333333,
+      "tfidf_recall5": 0.43866666666666665,
+      "bm25_top1": 0.45666666666666667,
+      "tfidf_top1": 0.47,
+      "n_docs": 6000,
+      "n_queries": 300
+    }
+  },
+  {
+    "name": "e16_gpt",
+    "status": "ok",
+    "seconds": 60.19,
+    "checks": [
+      {
+        "label": "beats the best Markov chain from E12 (<2.408 bits/char)",
+        "passed": true,
+        "detail": "Transformer=2.291 bits/char"
+      },
+      {
+        "label": "learned a diverse character distribution",
+        "passed": true,
+        "detail": "36 distinct chars in 300 generated"
+      },
+      {
+        "label": "generated text has word structure",
+        "passed": true,
+        "detail": "space ratio=0.160"
+      }
+    ],
+    "metrics": {
+      "bits_per_char": 2.2911462783813477,
+      "steps": 2500,
+      "params": 440699,
+      "final_train_loss": 1.5295667147636414,
+      "sample": "\nHerefore and \nI have my voin--\nBe a some-upon to grave this clent's and prity.\n\nAUTUS:\nBut it chancient deful, before the protor unfey\nhang days to my ruith a-grough not shall perlose\nThese shy plate"
+    }
+  },
+  {
+    "name": "e17_alphazero",
+    "status": "ok",
+    "seconds": 4.39,
+    "checks": [
+      {
+        "label": "trained agent beats random play (win=1, draw=0.5)",
+        "passed": true,
+        "detail": "score=0.890 (84 wins, 10 draws / 100)"
+      },
+      {
+        "label": "training loss decreases",
+        "passed": true,
+        "detail": "loss 2.366 -> 1.885"
+      }
+    ],
+    "metrics": {
+      "selfplay_positions": 9944,
+      "losses": [
+        2.3662754436592004,
+        2.0118810991188147,
+        1.9554526542688344,
+        1.9233601433890206,
+        1.9015872989382063,
+        1.8849527324948991
+      ],
+      "losses_iter1": [
+        2.7516534905279837,
+        2.4854448033917333,
+        2.3382592739597445,
+        2.291192393149099,
+        2.258239484602405,
+        2.235101071096236
+      ],
+      "vs_random": {
+        "score": 0.89,
+        "wins": 84,
+        "draws": 10
+      },
+      "sims_selfplay": 30,
+      "sims_eval": 40
+    }
+  },
+  {
+    "name": "e18_paged_attention",
+    "status": "ok",
+    "seconds": 0.01,
+    "checks": [
+      {
+        "label": "paged attention equals dense attention",
+        "passed": true,
+        "detail": "max|diff|=0.00e+00 over 300 tokens"
+      },
+      {
+        "label": "paging waste stays under 5%",
+        "passed": true,
+        "detail": "paged waste=0.018"
+      },
+      {
+        "label": "naive reservation wastes >60%",
+        "passed": true,
+        "detail": "naive waste=0.795"
+      },
+      {
+        "label": "paging saves >4x memory vs naive",
+        "passed": true,
+        "detail": "ratio=4.8x"
+      }
+    ],
+    "metrics": {
+      "attention_error": 0.0,
+      "memory": {
+        "sequences": 1000,
+        "total_tokens": 419715,
+        "paged_reserved": 427504,
+        "naive_reserved": 2048000,
+        "paged_waste": 0.018219712564092938,
+        "naive_waste": 0.79506103515625,
+        "internal_fragmentation": 0.01821971256409297
+      },
+      "block_size": 16
+    }
+  },
+  {
+    "name": "e19_resnet",
+    "status": "ok",
+    "seconds": 199.05,
+    "checks": [
+      {
+        "label": "residual net preserves first-layer gradients at depth 12",
+        "passed": true,
+        "detail": "grad_plain=1.79e-09, grad_res=1.01e+01, ratio=0.0x"
+      },
+      {
+        "label": "both networks learn MNIST",
+        "passed": true,
+        "detail": "plain=0.920, residual=0.956"
+      },
+      {
+        "label": "residual net is more accurate at equal budget",
+        "passed": true,
+        "detail": "residual=0.956 vs plain=0.920"
+      }
+    ],
+    "metrics": {
+      "grad_plain": 1.7908687865997308e-09,
+      "grad_res": 10.122095108032227,
+      "grad_ratio": 1.7692669032309483e-10,
+      "acc_plain": 0.920199990272522,
+      "acc_residual": 0.9557999968528748
+    }
+  },
+  {
+    "name": "e20_qlearning",
+    "status": "ok",
+    "seconds": 0.05,
+    "checks": [
+      {
+        "label": "Q-learning greedy path is optimal (13 steps)",
+        "passed": true,
+        "detail": "length=13"
+      },
+      {
+        "label": "Q-learning path touches the cliff edge",
+        "passed": true,
+        "detail": "path rows=[3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3]"
+      },
+      {
+        "label": "epsilon-greedy SARSA keeps off the cliff (length > 13)",
+        "passed": true,
+        "detail": "length=19"
+      },
+      {
+        "label": "SARSA has lower online regret than Q-learning",
+        "passed": true,
+        "detail": "SARSA -22.2 vs Q-learning -68.7"
+      }
+    ],
+    "metrics": {
+      "qlearning_path_length": 13,
+      "sarsa_path_length": 19,
+      "qlearning_online_return_last100": -68.73,
+      "sarsa_online_return_last100": -22.19,
+      "qlearning_path": [
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          11
+        ]
+      ],
+      "sarsa_path": [
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          10
+        ],
+        [
+          1,
+          10
+        ],
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          11
+        ]
+      ]
+    }
+  },
+  {
+    "name": "e21_gan",
+    "status": "ok",
+    "seconds": 26.66,
+    "checks": [
+      {
+        "label": "generator covers all ten digit classes (each >1% of samples)",
+        "passed": true,
+        "detail": "class fractions=[0.131, 0.154, 0.029, 0.04, 0.078, 0.084, 0.129, 0.042, 0.086, 0.227]"
+      },
+      {
+        "label": "no mode collapse (diversity > 50% of real)",
+        "passed": true,
+        "detail": "diversity ratio=0.841"
+      },
+      {
+        "label": "discriminator is not saturated",
+        "passed": true,
+        "detail": "D(real)=0.753, D(fake)=0.332"
+      }
+    ],
+    "metrics": {
+      "class_fractions": [
+        0.13133333333333333,
+        0.154,
+        0.028666666666666667,
+        0.04033333333333333,
+        0.078,
+        0.08433333333333333,
+        0.12866666666666668,
+        0.042,
+        0.08566666666666667,
+        0.227
+      ],
+      "diversity": 0.8413748145103455,
+      "D_real": 0.7527294158935547,
+      "D_fake": 0.33162519335746765
+    }
+  },
+  {
+    "name": "e22_double_descent",
+    "status": "ok",
+    "seconds": 3.14,
+    "checks": [
+      {
+        "label": "test error peaks near the interpolation threshold",
+        "passed": true,
+        "detail": "peak at m=1400, n_train=1257"
+      },
+      {
+        "label": "double descent is pronounced (peak > 1.5x tail)",
+        "passed": true,
+        "detail": "peak=0.611, tail=0.372"
+      },
+      {
+        "label": "error falls again in the overparameterized regime",
+        "passed": true,
+        "detail": "err(m=3000)=0.330 vs peak=0.611"
+      }
+    ],
+    "metrics": {
+      "widths": [
+        20,
+        40,
+        80,
+        160,
+        320,
+        500,
+        700,
+        1000,
+        1400,
+        2000,
+        3000
+      ],
+      "test_errors": [
+        0.23148148148148148,
+        0.1388888888888889,
+        0.06666666666666667,
+        0.04259259259259259,
+        0.05555555555555555,
+        0.11296296296296296,
+        0.18333333333333332,
+        0.40185185185185185,
+        0.6111111111111112,
+        0.4148148148148148,
+        0.3296296296296296
+      ],
+      "n_train": 1257,
+      "peak_m": 1400,
+      "peak_error": 0.6111111111111112,
+      "tail_error": 0.37222222222222223
+    }
+  },
+  {
+    "name": "e23_crypto",
+    "status": "ok",
+    "seconds": 0.06,
+    "checks": [
+      {
+        "label": "ChaCha20 matches RFC 8439 keystream vector",
+        "passed": true,
+        "detail": "first bytes=10f1e7e4d13b5915"
+      },
+      {
+        "label": "AEAD matches the cryptography library on 20 random cases",
+        "passed": true,
+        "detail": "20/20 exact matches"
+      },
+      {
+        "label": "tampered ciphertext fails authentication",
+        "passed": true,
+        "detail": "InvalidTag raised"
+      }
+    ],
+    "metrics": {
+      "rfc_vector_ok": true,
+      "aead_matches": 20,
+      "tag_bytes": 16
+    }
+  },
+  {
+    "name": "e24_jepa",
+    "status": "ok",
+    "seconds": 1.32,
+    "checks": [
+      {
+        "label": "frozen features support a strong linear probe",
+        "passed": true,
+        "detail": "probe accuracy=0.976 (raw pixels=0.961, chance=0.10)"
+      },
+      {
+        "label": "representation did not collapse",
+        "passed": true,
+        "detail": "mean feature std=0.662"
+      },
+      {
+        "label": "positive views are closer than negative views",
+        "passed": true,
+        "detail": "cos(pos)=0.838, cos(neg)=0.359"
+      }
+    ],
+    "metrics": {
+      "probe_acc": 0.975925925925926,
+      "raw_pixel_acc": 0.9611111111111111,
+      "feature_std": 0.6623837947845459,
+      "pos_cos": 0.83766770362854,
+      "neg_cos": 0.3588690459728241
+    }
+  }
+]

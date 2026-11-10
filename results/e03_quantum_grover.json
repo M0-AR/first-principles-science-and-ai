@@ -1,0 +1,87 @@
+{
+  "name": "e03_quantum_grover",
+  "status": "ok",
+  "metrics": {
+    "rows": [
+      {
+        "n": 2,
+        "N": 4,
+        "best_k": 1,
+        "p_success": 0.9999999999999996,
+        "classical_queries": 4,
+        "speedup": 4.0
+      },
+      {
+        "n": 3,
+        "N": 8,
+        "best_k": 2,
+        "p_success": 0.9453124999999996,
+        "classical_queries": 8,
+        "speedup": 4.0
+      },
+      {
+        "n": 4,
+        "N": 16,
+        "best_k": 3,
+        "p_success": 0.9613189697265623,
+        "classical_queries": 16,
+        "speedup": 5.333333333333333
+      },
+      {
+        "n": 5,
+        "N": 32,
+        "best_k": 4,
+        "p_success": 0.9991823155432925,
+        "classical_queries": 32,
+        "speedup": 8.0
+      },
+      {
+        "n": 6,
+        "N": 64,
+        "best_k": 6,
+        "p_success": 0.9965856807867991,
+        "classical_queries": 64,
+        "speedup": 10.666666666666666
+      }
+    ]
+  },
+  "checks": [
+    {
+      "label": "Grover n=3 amplifies the marked state",
+      "passed": true,
+      "detail": "p=0.94531 at k=2"
+    },
+    {
+      "label": "Grover n=4 amplifies the marked state",
+      "passed": true,
+      "detail": "p=0.96132 at k=3"
+    },
+    {
+      "label": "Grover n=5 amplifies the marked state",
+      "passed": true,
+      "detail": "p=0.99918 at k=4"
+    },
+    {
+      "label": "Grover n=6 amplifies the marked state",
+      "passed": true,
+      "detail": "p=0.99659 at k=6"
+    },
+    {
+      "label": "n=6 Grover success > 0.99",
+      "passed": true,
+      "detail": "p=0.996586"
+    },
+    {
+      "label": "iterations scale like sqrt(N)",
+      "passed": true,
+      "detail": "k=6 vs pi/4*sqrt(N)=6.28"
+    },
+    {
+      "label": "quantum speedup is quadratic",
+      "passed": true,
+      "detail": "N/k=10.67"
+    }
+  ],
+  "seconds": 0.0,
+  "error": null
+}

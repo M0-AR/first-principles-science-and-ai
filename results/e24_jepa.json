@@ -1,0 +1,30 @@
+{
+  "name": "e24_jepa",
+  "status": "ok",
+  "metrics": {
+    "probe_acc": 0.975925925925926,
+    "raw_pixel_acc": 0.9611111111111111,
+    "feature_std": 0.6623837947845459,
+    "pos_cos": 0.83766770362854,
+    "neg_cos": 0.3588690459728241
+  },
+  "checks": [
+    {
+      "label": "frozen features support a strong linear probe",
+      "passed": true,
+      "detail": "probe accuracy=0.976 (raw pixels=0.961, chance=0.10)"
+    },
+    {
+      "label": "representation did not collapse",
+      "passed": true,
+      "detail": "mean feature std=0.662"
+    },
+    {
+      "label": "positive views are closer than negative views",
+      "passed": true,
+      "detail": "cos(pos)=0.838, cos(neg)=0.359"
+    }
+  ],
+  "seconds": 1.32,
+  "error": null
+}

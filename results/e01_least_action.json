@@ -1,0 +1,44 @@
+{
+  "name": "e01_least_action",
+  "status": "ok",
+  "metrics": {
+    "grid_points": 64,
+    "dt": 0.015625,
+    "gd_steps": 20000,
+    "learning_rate": 0.00703125
+  },
+  "checks": [
+    {
+      "label": "free-particle discrete minimum is a straight line",
+      "passed": true,
+      "detail": "max|dx|=3.61e-15"
+    },
+    {
+      "label": "gradient descent reaches the straight line",
+      "passed": true,
+      "detail": "max|GD-exact|=2.36e-10"
+    },
+    {
+      "label": "free-particle action is 1/2",
+      "passed": true,
+      "detail": "S=0.500000000000"
+    },
+    {
+      "label": "oscillator discrete minimum matches sin(wt)/sin(w)",
+      "passed": true,
+      "detail": "max|dx|=1.41e-05"
+    },
+    {
+      "label": "gradient descent matches the oscillator minimum",
+      "passed": true,
+      "detail": "max|GD-exact|=7.19e-08"
+    },
+    {
+      "label": "oscillator action is stationary",
+      "passed": true,
+      "detail": "dS=9.55e-15"
+    }
+  ],
+  "seconds": 0.61,
+  "error": null
+}

@@ -1,0 +1,28 @@
+{
+  "name": "e23_crypto",
+  "status": "ok",
+  "metrics": {
+    "rfc_vector_ok": true,
+    "aead_matches": 20,
+    "tag_bytes": 16
+  },
+  "checks": [
+    {
+      "label": "ChaCha20 matches RFC 8439 keystream vector",
+      "passed": true,
+      "detail": "first bytes=10f1e7e4d13b5915"
+    },
+    {
+      "label": "AEAD matches the cryptography library on 20 random cases",
+      "passed": true,
+      "detail": "20/20 exact matches"
+    },
+    {
+      "label": "tampered ciphertext fails authentication",
+      "passed": true,
+      "detail": "InvalidTag raised"
+    }
+  ],
+  "seconds": 0.06,
+  "error": null
+}

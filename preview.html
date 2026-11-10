@@ -1,0 +1,1319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Scratch Lab — 24 ideas rebuilt and verified</title>
+<meta name="description" content="24 foundational ideas in AI, physics, markets and systems, rebuilt from first principles and verified against real data. Explore the experiments, play with live demos, and test yourself.">
+<meta name="theme-color" content="#070b16">
+<meta property="og:type" content="website">
+<meta property="og:title" content="From Scratch Lab — 24 ideas rebuilt and verified">
+<meta property="og:description" content="Every idea implemented from scratch, then measured against reality. 24 experiments, 97 automated checks, zero GPUs.">
+<meta property="og:image" content="assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1020'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%2322d3ee' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23a3e635'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#070b16;
+  --bg-2:#0b1020;
+  --panel:#0e1528;
+  --panel-2:#121b33;
+  --line:#1d2a47;
+  --ink:#e8eefb;
+  --muted:#93a4c6;
+  --dim:#64769a;
+  --cyan:#22d3ee;
+  --violet:#a78bfa;
+  --lime:#a3e635;
+  --amber:#fbbf24;
+  --pink:#f472b6;
+  --radius:18px;
+  --max:1160px;
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(900px 600px at 78% -8%, rgba(34,211,238,.10), transparent 60%),
+    radial-gradient(800px 600px at 8% 12%, rgba(167,139,250,.10), transparent 60%),
+    radial-gradient(900px 700px at 50% 105%, rgba(163,230,53,.05), transparent 60%),
+    var(--bg);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 75%);
+}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+button{font:inherit;color:inherit}
+::selection{background:rgba(34,211,238,.35);color:#fff}
+.skip{
+  position:absolute;left:-999px;top:0;background:var(--cyan);color:#04121a;
+  padding:.7rem 1rem;border-radius:0 0 10px 0;font-weight:700;z-index:200
+}
+.skip:focus{left:0}
+.wrap{width:min(var(--max),calc(100% - 2.4rem));margin-inline:auto}
+
+.progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:120;
+  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--lime))}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(7,11,22,.72);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(29,42,71,.7)
+}
+.nav-in{display:flex;align-items:center;gap:1.4rem;height:64px}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.08em;font-size:.78rem;color:var(--ink);white-space:nowrap}
+.brand:hover{text-decoration:none}
+.brand svg{flex:0 0 auto}
+.nav-links{display:flex;gap:1.2rem;margin-left:auto;align-items:center}
+.nav-links a{color:var(--muted);font-size:.88rem;font-weight:600}
+.nav-links a:hover,.nav-links a[aria-current="true"]{color:var(--ink);text-decoration:none}
+.nav-cta{
+  background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(167,139,250,.16));
+  border:1px solid rgba(34,211,238,.35);color:var(--ink)!important;
+  padding:.45rem .9rem;border-radius:999px;font-size:.82rem!important
+}
+.nav-cta:hover{border-color:var(--cyan)}
+@media(max-width:860px){.nav-links a:not(.nav-cta){display:none}}
+
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:7rem 0 4rem;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.85}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(7,11,22,.25) 0%,rgba(7,11,22,.05) 40%,var(--bg) 96%)
+}
+.hero-in{position:relative;z-index:2;max-width:820px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;font-size:.76rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);
+  border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.07);
+  padding:.4rem .8rem;border-radius:999px;margin-bottom:1.4rem
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}
+h1{
+  font-size:clamp(2.5rem,6vw,4.7rem);line-height:1.02;letter-spacing:-.035em;
+  margin:0 0 1.3rem;font-weight:800;max-width:15ch
+}
+h1 .grad{background:linear-gradient(100deg,var(--cyan) 0%,var(--violet) 55%,var(--lime) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{font-size:clamp(1.02rem,2vw,1.22rem);color:var(--muted);max-width:62ch;margin:0 0 2rem}
+.hero p.lede strong{color:var(--ink)}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.6rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;border-radius:999px;padding:.8rem 1.3rem;
+  font-weight:700;font-size:.95rem;border:1px solid transparent;cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease
+}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),#67e8f9);color:#04121a;box-shadow:0 8px 30px rgba(34,211,238,.25)}
+.btn-ghost{border-color:var(--line);background:rgba(14,21,40,.6);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--cyan)}
+.hero-stats{display:flex;gap:2.2rem;flex-wrap:wrap}
+.hstat{min-width:96px}
+.hstat b{display:block;font-size:1.5rem;letter-spacing:-.02em}
+.hstat span{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);font-weight:700}
+.hstat b.cyan{color:var(--cyan)} .hstat b.lime{color:var(--lime)} .hstat b.violet{color:var(--violet)} .hstat b.amber{color:var(--amber)}
+
+section{padding:5.4rem 0;position:relative}
+.section-head{max-width:760px;margin-bottom:2.6rem}
+.kicker{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin:0 0 .7rem}
+h2{font-size:clamp(1.8rem,3.6vw,2.7rem);line-height:1.1;letter-spacing:-.03em;margin:0 0 .8rem}
+.section-head p{color:var(--muted);margin:0;font-size:1.02rem;max-width:65ch}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media(max-width:960px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr}}
+@media(max-width:560px){.grid-4{grid-template-columns:1fr}}
+.card{
+  background:linear-gradient(180deg,rgba(20,30,54,.72),rgba(12,18,34,.86));
+  border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem;
+  transition:border-color .2s ease,transform .2s ease
+}
+.card:hover{border-color:#2c3f66;transform:translateY(-2px)}
+.card h3{margin:.2rem 0 .5rem;font-size:1.05rem;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;margin-bottom:.9rem;
+  background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);color:var(--cyan)}
+.icon.violet{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.28);color:var(--violet)}
+.icon.lime{background:rgba(163,230,53,.1);border-color:rgba(163,230,53,.28);color:var(--lime)}
+.icon.amber{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.28);color:var(--amber)}
+.icon svg{width:19px;height:19px}
+.persona .role{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:.35rem}
+.persona h3{font-size:1rem;margin:0 0 .4rem}
+.persona p{font-size:.9rem}
+
+.controls{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-bottom:1.4rem}
+.search{position:relative;flex:1 1 260px;max-width:340px}
+.search input{
+  width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  color:var(--ink);padding:.65rem .9rem .65rem 2.3rem;font:inherit;font-size:.9rem
+}
+.search input:focus{outline:2px solid rgba(34,211,238,.5);outline-offset:1px;border-color:transparent}
+.search svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--dim)}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap}
+.chip{
+  border:1px solid var(--line);background:transparent;border-radius:999px;padding:.42rem .8rem;
+  font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer
+}
+.chip:hover{border-color:#2c3f66;color:var(--ink)}
+.chip[aria-pressed="true"]{background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.45);color:var(--cyan)}
+.count{margin-left:auto;color:var(--dim);font-size:.82rem;font-weight:600}
+.exp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem}
+@media(max-width:1100px){.exp-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.exp-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.exp-grid{grid-template-columns:1fr}}
+.exp{
+  text-align:left;background:linear-gradient(180deg,rgba(18,27,51,.72),rgba(11,16,32,.9));
+  border:1px solid var(--line);border-radius:15px;padding:1.05rem 1.05rem 1rem;cursor:pointer;
+  display:flex;flex-direction:column;gap:.45rem;transition:border-color .18s,transform .18s;position:relative;overflow:hidden
+}
+.exp::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--track,var(--cyan));opacity:.75}
+.exp:hover{border-color:#33507f;transform:translateY(-2px)}
+.exp .top{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.exp .num{font-family:var(--mono);font-size:.72rem;color:var(--dim)}
+.tag{font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:.2rem .5rem;border-radius:999px;background:color-mix(in srgb,var(--track) 14%,transparent);
+  color:var(--track);border:1px solid color-mix(in srgb,var(--track) 35%,transparent)}
+.exp h3{font-size:.97rem;margin:.15rem 0 0;letter-spacing:-.01em}
+.exp .blurb{font-size:.8rem;color:var(--muted);line-height:1.45;margin:0;flex:1}
+.exp .metric{font-family:var(--mono);font-size:1.02rem;color:var(--track);margin-top:.2rem;font-weight:700}
+.exp .metric-sub{font-size:.68rem;color:var(--dim);line-height:1.35;margin-top:-.1rem}
+.exp .foot{display:flex;justify-content:space-between;align-items:center;margin-top:.55rem;
+  padding-top:.55rem;border-top:1px solid rgba(29,42,71,.7);font-size:.68rem;color:var(--dim)}
+.exp .ok{color:var(--lime);font-weight:700}
+.empty{grid-column:1/-1;text-align:center;color:var(--dim);padding:2.5rem;border:1px dashed var(--line);border-radius:14px}
+
+dialog{
+  width:min(680px,calc(100% - 1.6rem));max-height:86vh;border:1px solid #2b3d61;border-radius:20px;
+  background:linear-gradient(180deg,#101a31,#0a101f);color:var(--ink);padding:0;overflow:auto
+}
+dialog::backdrop{background:rgba(3,6,14,.72);backdrop-filter:blur(4px)}
+.dlg-head{display:flex;align-items:flex-start;gap:1rem;padding:1.4rem 1.5rem 0}
+.dlg-head .tag{margin-top:.2rem}
+.dlg-head h3{margin:.35rem 0 0;font-size:1.45rem;letter-spacing:-.02em;line-height:1.2}
+.dlg-close{margin-left:auto;background:var(--panel-2);border:1px solid var(--line);color:var(--muted);
+  width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;line-height:1;flex:0 0 auto}
+.dlg-close:hover{color:var(--ink);border-color:#3a5384}
+.dlg-body{padding:1.1rem 1.5rem 1.5rem}
+.dlg-metric{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;background:rgba(34,211,238,.06);
+  border:1px solid rgba(34,211,238,.18);border-radius:12px;padding:.8rem 1rem;margin:0 0 1rem}
+.dlg-metric b{font-family:var(--mono);font-size:1.25rem;color:var(--cyan)}
+.dlg-metric span{font-size:.8rem;color:var(--muted)}
+.dlg-body p.insight{color:#c2cfe8;font-size:.94rem;margin:0 0 1.2rem}
+.checklist{list-style:none;margin:0 0 1.2rem;padding:0;display:grid;gap:.45rem}
+.checklist li{display:flex;gap:.6rem;font-size:.85rem;color:var(--muted);align-items:flex-start}
+.checklist .mark{flex:0 0 auto;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(163,230,53,.12);color:var(--lime);font-size:.65rem;font-weight:900;margin-top:.15rem}
+.checklist .detail{display:block;color:var(--dim);font-family:var(--mono);font-size:.72rem;margin-top:.1rem}
+.dlg-foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line);
+  padding-top:.9rem;font-size:.74rem;color:var(--dim)}
+.dlg-foot code{color:var(--muted)}
+
+.demo-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.tab{border:1px solid var(--line);background:transparent;border-radius:999px;padding:.5rem .95rem;
+  font-size:.84rem;font-weight:700;color:var(--muted);cursor:pointer}
+.tab:hover{color:var(--ink);border-color:#33507f}
+.tab[aria-selected="true"]{background:rgba(167,139,250,.14);border-color:rgba(167,139,250,.5);color:var(--violet)}
+.panel{display:none}
+.panel.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.demo{background:linear-gradient(180deg,rgba(18,27,51,.7),rgba(10,16,31,.9));border:1px solid var(--line);
+  border-radius:var(--radius);padding:1.2rem;display:grid;grid-template-columns:1.35fr .65fr;gap:1.2rem}
+@media(max-width:860px){.demo{grid-template-columns:1fr}}
+.demo canvas{width:100%;height:auto;border-radius:12px;background:#080d19;border:1px solid #16223c;display:block}
+.demo-side h3{margin:.1rem 0 .5rem;font-size:1.02rem}
+.demo-side p{color:var(--muted);font-size:.86rem;margin:0 0 .9rem}
+.readout{font-family:var(--mono);font-size:.8rem;color:var(--cyan);background:rgba(34,211,238,.06);
+  border:1px solid rgba(34,211,238,.16);border-radius:10px;padding:.55rem .7rem;margin-bottom:.9rem;min-height:2.4em}
+label.range{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:.35rem}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+.btn-sm{border:1px solid var(--line);background:var(--panel-2);border-radius:10px;padding:.5rem .8rem;
+  font-size:.8rem;font-weight:700;cursor:pointer;color:var(--ink)}
+.btn-sm:hover{border-color:var(--cyan)}
+.btn-sm.primary{background:rgba(34,211,238,.14);border-color:rgba(34,211,238,.45);color:var(--cyan)}
+.btn-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}
+.hint{font-size:.72rem;color:var(--dim);margin-top:.7rem}
+
+.quiz{display:grid;grid-template-columns:1fr 320px;gap:1.3rem;align-items:start}
+@media(max-width:900px){.quiz{grid-template-columns:1fr}}
+.quiz-main{background:linear-gradient(180deg,rgba(18,27,51,.75),rgba(10,16,31,.92));
+  border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem}
+.quiz-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.9rem}
+.quiz-top .qcount{font-family:var(--mono);font-size:.78rem;color:var(--dim)}
+.level{font-size:.64rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;
+  border-radius:999px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.35);color:var(--violet)}
+.bar{height:6px;background:#101a30;border-radius:999px;overflow:hidden;margin-bottom:1.2rem}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .3s ease}
+#q-text{font-size:1.12rem;line-height:1.45;margin:0 0 1rem;letter-spacing:-.01em}
+.opts{display:grid;gap:.55rem}
+.opt{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:.75rem .9rem;font-size:.9rem;cursor:pointer;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:#3a5384;background:#111c35}
+.opt:disabled{cursor:default;opacity:.85}
+.opt.correct{border-color:rgba(163,230,53,.6);background:rgba(163,230,53,.1);color:#e6ffc2}
+.opt.wrong{border-color:rgba(244,114,182,.55);background:rgba(244,114,182,.09);color:#ffd6e8}
+.feedback{margin-top:1rem;border-radius:12px;padding:.85rem 1rem;font-size:.86rem;display:none;
+  border:1px solid var(--line);background:rgba(34,211,238,.05);color:var(--muted)}
+.feedback.show{display:block;animation:fade .2s ease}
+.feedback b{color:var(--ink)}
+.quiz-foot{display:flex;justify-content:flex-end;margin-top:1rem;gap:.5rem}
+.quiz-side{background:rgba(14,21,40,.65);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem}
+.quiz-side h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin:0 0 .7rem}
+.score{font-family:var(--mono);font-size:2rem;color:var(--lime);line-height:1}
+.quiz-side p{color:var(--muted);font-size:.82rem;margin:.6rem 0 0}
+.result{display:none}
+.result.show{display:block}
+.result h3{font-size:1.3rem;margin:0 0 .4rem}
+.result p{color:var(--muted);margin:0 0 1rem;font-size:.9rem}
+
+.receipts{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.2rem}
+@media(max-width:900px){.receipts{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.receipts{grid-template-columns:1fr}}
+.receipt{background:rgba(14,21,40,.65);border:1px solid var(--line);border-radius:14px;padding:1rem}
+.receipt b{display:block;font-family:var(--mono);font-size:1.45rem;color:var(--cyan)}
+.receipt span{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.feature-results{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}
+@media(max-width:860px){.feature-results{grid-template-columns:1fr}}
+.fres{text-align:left;background:linear-gradient(180deg,rgba(18,27,51,.7),rgba(10,16,31,.9));
+  border:1px solid var(--line);border-radius:14px;padding:1.1rem;cursor:pointer}
+.fres:hover{border-color:#33507f}
+.fres .big{font-family:var(--mono);font-size:1.3rem;color:var(--lime)}
+.fres h4{margin:.35rem 0 .25rem;font-size:.95rem}
+.fres p{margin:0;font-size:.78rem;color:var(--muted)}
+
+.start-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:1.1rem;align-items:start}
+@media(max-width:900px){.start-grid{grid-template-columns:1fr}}
+.term{background:#060a13;border:1px solid #1a2742;border-radius:14px;overflow:hidden}
+.term-top{display:flex;align-items:center;gap:.4rem;padding:.6rem .8rem;border-bottom:1px solid #142034;background:#0a101d}
+.term-top .d{width:9px;height:9px;border-radius:50%}
+.term-top .d:nth-child(1){background:#f87171}.term-top .d:nth-child(2){background:#fbbf24}.term-top .d:nth-child(3){background:#34d399}
+.term-top span{margin-left:.5rem;font-family:var(--mono);font-size:.7rem;color:var(--dim)}
+.copy{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--muted);
+  border-radius:8px;font-size:.7rem;padding:.25rem .55rem;cursor:pointer}
+.copy:hover{color:var(--ink);border-color:#33507f}
+pre{margin:0;padding:1rem 1.1rem;overflow:auto;font-family:var(--mono);font-size:.8rem;line-height:1.8;color:#c7d5f0}
+pre .c{color:#5f7296}
+pre .g{color:var(--lime)}
+pre .y{color:var(--amber)}
+.steps{display:grid;gap:.7rem}
+.step{display:flex;gap:.8rem;align-items:flex-start;background:rgba(14,21,40,.55);border:1px solid var(--line);
+  border-radius:12px;padding:.85rem .95rem}
+.step b{flex:0 0 auto;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;
+  background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--cyan);font-size:.75rem;font-family:var(--mono)}
+.step p{margin:0;font-size:.84rem;color:var(--muted)}
+.step p strong{color:var(--ink)}
+.publish{margin-top:1rem;font-size:.8rem;color:var(--dim)}
+.publish code{font-family:var(--mono);color:var(--muted)}
+
+.footer{border-top:1px solid var(--line);padding:2.4rem 0;color:var(--dim);font-size:.8rem}
+.footer-in{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.footer a{color:var(--muted)}
+.footer .fine{max-width:60ch;line-height:1.6}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--panel-2);
+  border:1px solid #2f4672;color:var(--ink);padding:.6rem 1rem;border-radius:10px;font-size:.8rem;
+  opacity:0;pointer-events:none;transition:all .25s ease;z-index:150}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#overview">Skip to content</a>
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="From Scratch Lab home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="9" fill="none" stroke="#22d3ee" stroke-width="2"/><circle cx="13" cy="13" r="3" fill="#a3e635"/></svg>
+      FROM SCRATCH LAB
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#playground">Playground</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#results">Results</a>
+      <a class="nav-cta" href="#start">Run it</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="wrap hero-in">
+      <span class="eyebrow"><span class="dot"></span> 24 experiments · 97 automated checks · zero GPUs</span>
+      <h1 id="hero-title">The ideas behind modern AI, <span class="grad">rebuilt from scratch.</span></h1>
+      <p class="lede">Every concept in this lab is implemented from first principles, then measured against <strong>real data, known constants, or a working system</strong>. No hand-waving: the numbers on this page are produced by the same test suite that ships in the repository.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#experiments">Explore the 24 experiments
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#quiz">Take the quiz</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b class="cyan" id="stat-experiments">24</b><span>experiments</span></div>
+        <div class="hstat"><b class="lime" id="stat-checks">97 / 97</b><span>checks passing</span></div>
+        <div class="hstat"><b class="violet" id="stat-minutes">8.8 min</b><span>full run, CPU</span></div>
+        <div class="hstat"><b class="amber">MIT</b><span>open source</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview" aria-labelledby="overview-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">The executive summary</p>
+        <h2 id="overview-title">A portfolio of ideas you can check, not just read.</h2>
+        <p>Most technical claims are taken on trust. This repository replaces trust with evidence: twenty-four compact implementations, each paired with an automated experiment that tests it against something real. It is an executable curriculum, a due-diligence toolkit, and a demonstration that the foundations are understandable.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="icon"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2v4M10 14v4M2 10h4M14 10h4M4.9 4.9l2.8 2.8M12.3 12.3l2.8 2.8M15.1 4.9l-2.8 2.8M7.7 12.3l-2.8 2.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <h3>One idea per experiment</h3>
+          <p>Least action, quantization, attention caches, retrieval, relativity, GANs, ChaCha20 — each isolated, explained, and implemented without a framework hiding the mechanics.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon lime"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10.5l4 4L17 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Verified against reality</h3>
+          <p>CODATA measurements, RFC 8439 test vectors, real order-book data, live exchange quotes, 20 Newsgroups, Riemann zeros, and a full GPS constellation. Every check leaves a receipt.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon violet"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 16V8M10 16V4M16 16v-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>Small enough to read</h3>
+          <p>Pure Python and NumPy, CPU-only, no cloud account. The full suite runs in under nine minutes on a laptop and produces the same JSON the website displays.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="audience" aria-labelledby="audience-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Who it is for</p>
+        <h2 id="audience-title">Different readers, one source of evidence.</h2>
+        <p>You do not need a PhD to use this, and you do not need to trust the author either. Pick the entry point that matches your job.</p>
+      </div>
+      <div class="grid-4">
+        <div class="card persona reveal"><div class="role">Engineers</div><h3>Learn by rebuilding</h3><p>Read a 200-line implementation, run its checks, then modify it. Every experiment is a working reference, not pseudo-code.</p></div>
+        <div class="card persona reveal"><div class="role">Founders &amp; investors</div><h3>Technical due diligence</h3><p>Test the claims behind AI, infrastructure, and market-data pitches against measurable baselines. Ask better questions before writing a cheque.</p></div>
+        <div class="card persona reveal"><div class="role">Students &amp; teachers</div><h3>A ready course spine</h3><p>Twenty-four lectures, each with runnable code, real data, and a pass/fail criterion. Use it as a lab manual or a self-study path.</p></div>
+        <div class="card persona reveal"><div class="role">Hiring managers</div><h3>Evidence of depth</h3><p>See how someone reasons about numerical correctness, baselines, and failure modes — the skills interviews try to detect.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiments" aria-labelledby="exp-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">The catalogue</p>
+        <h2 id="exp-title">Twenty-four experiments, four tracks.</h2>
+        <p>Search or filter, then open any card for the full claim, the measured result, and every automated check behind it. All figures come from <code>results/*.json</code>.</p>
+      </div>
+      <div class="controls reveal">
+        <div class="search">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M10.6 10.6L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="exp-search" type="search" placeholder="Search experiments…" aria-label="Search experiments">
+        </div>
+        <div class="chips" id="track-chips" role="group" aria-label="Filter by track"></div>
+        <span class="count" id="exp-count">Showing 24 of 24</span>
+      </div>
+      <div class="exp-grid" id="exp-grid"></div>
+    </div>
+  </section>
+
+  <section id="playground" aria-labelledby="play-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Touch the ideas</p>
+        <h2 id="play-title">A playground, not a poster.</h2>
+        <p>Three of the experiments distilled into live controls. Nothing is pre-rendered: the paths, probabilities, and spins below are computed in your browser as you move the sliders.</p>
+      </div>
+      <div class="demo-tabs reveal" role="tablist" aria-label="Playground demos">
+        <button class="tab" id="tab-action" role="tab" aria-selected="true" aria-controls="panel-action">Least action</button>
+        <button class="tab" id="tab-grover" role="tab" aria-selected="false" aria-controls="panel-grover">Grover search</button>
+        <button class="tab" id="tab-ising" role="tab" aria-selected="false" aria-controls="panel-ising">Ising domains</button>
+      </div>
+      <div class="panel active" id="panel-action" role="tabpanel" aria-labelledby="tab-action">
+        <div class="demo">
+          <canvas id="action-canvas" width="960" height="380" aria-label="A path between two endpoints; a slider morphs it from a jagged line into the straight line that minimises action"></canvas>
+          <div class="demo-side">
+            <h3>Why straight?</h3>
+            <p>A free particle tries every path; the one with stationary action wins. Drag the slider and watch the discrete action fall as the path straightens.</p>
+            <div class="readout" id="action-readout" aria-live="polite">action S = —</div>
+            <label class="range" for="action-slider">Path smoothing</label>
+            <input id="action-slider" type="range" min="0" max="100" value="0" step="1">
+            <div class="btn-row"><button class="btn-sm" id="action-reset">Reset to jagged</button></div>
+            <p class="hint">Endpoints are fixed. The slider is a visualisation of the descent the experiment runs for real.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="panel-grover" role="tabpanel" aria-labelledby="tab-grover">
+        <div class="demo">
+          <canvas id="grover-canvas" width="960" height="380" aria-label="Bar chart of 32 basis states; each Grover query raises the probability of the marked state"></canvas>
+          <div class="demo-side">
+            <h3>Amplify the answer</h3>
+            <p>One of 32 states is marked. Each query flips its sign and reflects every amplitude about the mean, concentrating probability on the target.</p>
+            <div class="readout" id="grover-readout" aria-live="polite">query 0 · P(target) = 0.031</div>
+            <div class="btn-row">
+              <button class="btn-sm primary" id="grover-step">Apply one query</button>
+              <button class="btn-sm" id="grover-reset">Reset</button>
+            </div>
+            <p class="hint">This is the exact quantum amplitude update, simulated with real numbers. Five queries are enough for 32 states.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel" id="panel-ising" role="tabpanel" aria-labelledby="tab-ising">
+        <div class="demo">
+          <canvas id="ising-canvas" width="440" height="440" aria-label="A grid of up and down spins forming magnetic domains near the critical temperature"></canvas>
+          <div class="demo-side">
+            <h3>Order from noise</h3>
+            <p>Below the critical temperature, neighbouring spins align into domains. Raise the temperature and the order melts away.</p>
+            <div class="readout" id="ising-readout" aria-live="polite">magnetization = —</div>
+            <label class="range" for="ising-temp">Temperature T = <span id="ising-temp-val">2.27</span></label>
+            <input id="ising-temp" type="range" min="1.6" max="3.4" value="2.27" step="0.01">
+            <div class="btn-row">
+              <button class="btn-sm primary" id="ising-sweep">Sweep ×10</button>
+              <button class="btn-sm" id="ising-auto">Auto</button>
+              <button class="btn-sm" id="ising-reset">Reset</button>
+            </div>
+            <p class="hint">Metropolis dynamics on a 44×44 lattice with periodic edges. T = 2.27 is close to the critical point.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz" aria-labelledby="quiz-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">From warm-up to pro</p>
+        <h2 id="quiz-title">How deep is your intuition?</h2>
+        <p>Ten questions, written from this lab's results. Each answer comes with the reasoning and the experiment that backs it. No login, no scoreboard, no pressure.</p>
+      </div>
+      <div class="quiz reveal">
+        <div class="quiz-main">
+          <div class="quiz-top">
+            <span class="qcount" id="q-count">Question 1 of 10</span>
+            <span class="level" id="q-level">Warm-up</span>
+          </div>
+          <div class="bar" aria-hidden="true"><i id="q-bar"></i></div>
+          <div id="quiz-stage">
+            <h3 id="q-text">Loading…</h3>
+            <div class="opts" id="q-opts"></div>
+            <div class="feedback" id="q-feedback" aria-live="polite"></div>
+            <div class="quiz-foot"><button class="btn-sm primary" id="q-next" hidden>Next question</button></div>
+          </div>
+          <div class="result" id="quiz-result">
+            <h3 id="result-title">—</h3>
+            <p id="result-text"></p>
+            <button class="btn-sm primary" id="quiz-restart">Play again</button>
+          </div>
+        </div>
+        <aside class="quiz-side">
+          <h3>Score</h3>
+          <div class="score" id="score">0 / 10</div>
+          <p>Questions get harder as you go. Explanations cite the experiment number so you can inspect the runnable proof.</p>
+          <p><a href="#experiments">Browse the experiments →</a></p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" aria-labelledby="results-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">The receipts</p>
+        <h2 id="results-title">Numbers that survived contact with reality.</h2>
+        <p>The suite writes a JSON record for every experiment: status, timings, metrics, and each check with its measured detail. These are the headlines.</p>
+      </div>
+      <div class="receipts reveal">
+        <div class="receipt"><b id="r-checks">97 / 97</b><span>automated checks passing</span></div>
+        <div class="receipt"><b id="r-experiments">24</b><span>independent experiments</span></div>
+        <div class="receipt"><b id="r-minutes">8.8 min</b><span>full suite, laptop CPU</span></div>
+        <div class="receipt"><b>0</b><span>GPUs or cloud accounts needed</span></div>
+      </div>
+      <div class="feature-results reveal">
+        <button class="fres" data-open="e02_path_integral_g2">
+          <span class="big">2.5 × 10⁻⁹</span>
+          <h4>QED meets the electron</h4>
+          <p>Five-loop prediction vs the CODATA measurement of g−2. Read the checks →</p>
+        </button>
+        <button class="fres" data-open="e05_kv_cache">
+          <span class="big">6,627×</span>
+          <h4>A million tokens, 0.89 GB</h4>
+          <p>The measured KV-cache budget against dense multi-head attention. Read the checks →</p>
+        </button>
+        <button class="fres" data-open="e14_riemann_gue">
+          <span class="big">12.6×</span>
+          <h4>Zeros know random matrices</h4>
+          <p>20,000 Riemann zeros match GUE statistics far better than Poisson. Read the checks →</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="start" aria-labelledby="start-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Run it yourself</p>
+        <h2 id="start-title">Three commands to a verified lab.</h2>
+        <p>Python 3.12 and a laptop. The smoke run takes about half a minute; the full suite finishes in under nine. Every number on this page is regenerated locally.</p>
+      </div>
+      <div class="start-grid">
+        <div class="reveal">
+          <div class="term">
+            <div class="term-top"><i class="d"></i><i class="d"></i><i class="d"></i><span>terminal</span><button class="copy" data-copy="#cmd">Copy</button></div>
+            <pre id="cmd"><span class="c"># 1. install the package</span>
+python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -e .
+
+<span class="c"># 2. prove it works in 30 seconds</span>
+python scripts/run_all.py --smoke
+
+<span class="c"># 3. run all 24 experiments (~9 minutes)</span>
+python scripts/run_all.py --all
+python -m pytest -q</pre>
+          </div>
+          <p class="publish">Prefer containers? <code>docker compose up --build</code> runs the same suite. Results land in <code>results/</code>; this website reads them from <code>assets/site-data.js</code>.</p>
+        </div>
+        <div class="steps reveal">
+          <div class="step"><b>1</b><p><strong>Install.</strong> A virtual environment plus <code>pip install -e .</code>. NumPy, SciPy, scikit-learn, matplotlib, and Pillow — all CPU.</p></div>
+          <div class="step"><b>2</b><p><strong>Verify.</strong> The smoke run exercises representative experiments; the full run writes every JSON record and refreshes the summary.</p></div>
+          <div class="step"><b>3</b><p><strong>Explore.</strong> Open <code>results/</code>, read the checks, change a parameter, rerun one experiment, and see what breaks.</p></div>
+          <div class="step"><b>4</b><p><strong>Publish.</strong> Push to GitHub, then Settings → Pages → Deploy from a branch → <code>main</code> / <code>(root)</code>. <code>index.html</code> forwards to this page.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <div class="fine">
+      <strong style="color:var(--ink)">From Scratch Lab</strong> · MIT licensed · built with Python and NumPy.<br>
+      Educational and research material, not investment or production advice. Every displayed metric is generated from <code>results/*.json</code>.
+    </div>
+    <div style="display:flex;gap:1.2rem;flex-wrap:wrap">
+      <a href="#top">Back to top</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#quiz">Quiz</a>
+    </div>
+  </div>
+</footer>
+
+<dialog id="exp-dialog" aria-labelledby="dlg-title">
+  <div class="dlg-head">
+    <div>
+      <span class="tag" id="dlg-tag">Track</span>
+      <h3 id="dlg-title">Experiment</h3>
+    </div>
+    <button class="dlg-close" id="dlg-close" aria-label="Close details">✕</button>
+  </div>
+  <div class="dlg-body">
+    <div class="dlg-metric"><b id="dlg-metric">—</b><span id="dlg-metric-sub"></span></div>
+    <p class="insight" id="dlg-insight"></p>
+    <ul class="checklist" id="dlg-checks"></ul>
+    <div class="dlg-foot">
+      <span id="dlg-runtime">Runtime —</span>
+      <code id="dlg-source">src/fsl/experiments/…</code>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/site-data.js"></script>
+<script>
+(function () {
+  "use strict";
+  const DATA = window.LAB_DATA;
+  if (!DATA) return;
+  const experiments = DATA.experiments;
+  const stats = DATA.stats;
+  const trackColor = {
+    Physics: "#22d3ee",
+    Markets: "#fbbf24",
+    Systems: "#a78bfa",
+    Learning: "#a3e635"
+  };
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const el = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+
+  $("#stat-experiments").textContent = stats.experiments;
+  $("#stat-checks").textContent = stats.checks_passed + " / " + stats.checks;
+  $("#stat-minutes").textContent = stats.host_minutes + " min";
+  $("#r-checks").textContent = stats.checks_passed + " / " + stats.checks;
+  $("#r-experiments").textContent = stats.experiments;
+  $("#r-minutes").textContent = stats.host_minutes + " min";
+
+  const grid = $("#exp-grid");
+  const chips = $("#track-chips");
+  const search = $("#exp-search");
+  const count = $("#exp-count");
+  const tracks = ["All"].concat(stats.tracks);
+  let activeTrack = "All";
+  let query = "";
+
+  tracks.forEach((track) => {
+    const chip = el("button", "chip", track);
+    chip.type = "button";
+    chip.setAttribute("aria-pressed", String(track === "All"));
+    chip.addEventListener("click", () => {
+      activeTrack = track;
+      chips.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c.textContent === track)));
+      render();
+    });
+    chips.appendChild(chip);
+  });
+
+  function matches(exp) {
+    if (activeTrack !== "All" && exp.track !== activeTrack) return false;
+    if (!query) return true;
+    const hay = (exp.title + " " + exp.track + " " + exp.blurb + " " + exp.metric_sub).toLowerCase();
+    return hay.includes(query);
+  }
+
+  function render() {
+    grid.innerHTML = "";
+    const shown = experiments.filter(matches);
+    shown.forEach((exp) => {
+      const card = el("button", "exp");
+      card.type = "button";
+      card.style.setProperty("--track", trackColor[exp.track] || "#22d3ee");
+      const top = el("div", "top");
+      top.appendChild(el("span", "num", "EXP " + String(exp.num).padStart(2, "0")));
+      top.appendChild(el("span", "tag", exp.track));
+      card.appendChild(top);
+      card.appendChild(el("h3", null, exp.title));
+      card.appendChild(el("p", "blurb", exp.blurb));
+      card.appendChild(el("div", "metric", exp.metric));
+      card.appendChild(el("div", "metric-sub", exp.metric_sub));
+      const foot = el("div", "foot");
+      const passed = exp.checks.filter((c) => c.passed).length;
+      foot.appendChild(el("span", "ok", "✓ " + passed + "/" + exp.checks.length + " checks"));
+      foot.appendChild(el("span", null, "details →"));
+      card.appendChild(foot);
+      card.addEventListener("click", () => openDialog(exp));
+      grid.appendChild(card);
+    });
+    if (!shown.length) {
+      grid.appendChild(el("div", "empty", "No experiments match that filter. Try a different word or track."));
+    }
+    count.textContent = "Showing " + shown.length + " of " + experiments.length;
+  }
+
+  search.addEventListener("input", () => {
+    query = search.value.trim().toLowerCase();
+    render();
+  });
+  render();
+
+  const dialog = $("#exp-dialog");
+  function openDialog(exp) {
+    $("#dlg-title").textContent = exp.title;
+    $("#dlg-tag").textContent = exp.track;
+    $("#dlg-tag").style.color = trackColor[exp.track];
+    $("#dlg-tag").style.borderColor = trackColor[exp.track] + "66";
+    $("#dlg-metric").textContent = exp.metric;
+    $("#dlg-metric-sub").textContent = exp.metric_sub;
+    $("#dlg-insight").textContent = exp.insight;
+    const list = $("#dlg-checks");
+    list.innerHTML = "";
+    exp.checks.forEach((check) => {
+      const li = el("li");
+      li.appendChild(el("span", "mark", check.passed ? "✓" : "✕"));
+      const body = el("span");
+      body.appendChild(el("span", null, check.label));
+      if (check.detail) body.appendChild(el("span", "detail", check.detail));
+      li.appendChild(body);
+      list.appendChild(li);
+    });
+    $("#dlg-runtime").textContent = "Runtime " + exp.seconds + " s · status " + exp.status;
+    $("#dlg-source").textContent = "src/fsl/experiments/" + exp.key + ".py";
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+  }
+  function closeDialog() {
+    if (typeof dialog.close === "function") dialog.close();
+    else dialog.removeAttribute("open");
+  }
+  $("#dlg-close").addEventListener("click", closeDialog);
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+  document.querySelectorAll("[data-open]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const exp = experiments.find((item) => item.key === button.getAttribute("data-open"));
+      if (exp) openDialog(exp);
+    });
+  });
+
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", "false"));
+      document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
+      tab.setAttribute("aria-selected", "true");
+      const panel = document.getElementById(tab.getAttribute("aria-controls"));
+      panel.classList.add("active");
+      if (panel.id === "panel-ising") isingDraw();
+      if (panel.id === "panel-grover") groverDraw();
+      if (panel.id === "panel-action") actionDraw();
+    });
+  });
+
+  const actionCanvas = $("#action-canvas");
+  const actx = actionCanvas.getContext("2d");
+  const actionSlider = $("#action-slider");
+  const actionReadout = $("#action-readout");
+  const W = actionCanvas.width, H = actionCanvas.height;
+  const N = 41;
+  const zig = [];
+  (function seedZigzag() {
+    let seed = 7;
+    const rand = () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+    let y = 0;
+    for (let i = 0; i < N; i++) {
+      if (i === 0) y = 0;
+      else if (i === N - 1) y = 0;
+      else y += (rand() - 0.5) * 0.42;
+      zig.push(y);
+    }
+  })();
+  function actionDraw() {
+    const t = Number(actionSlider.value) / 100;
+    const xs = [];
+    const ys = [];
+    for (let i = 0; i < N; i++) {
+      const u = i / (N - 1);
+      const straight = 0.9 - 1.8 * u;
+      const y = (1 - t) * zig[i] + t * straight;
+      xs.push(u);
+      ys.push(y);
+    }
+    let sum = 0;
+    for (let i = 1; i < N; i++) {
+      const d = ys[i] - ys[i - 1];
+      sum += d * d;
+    }
+    const dt = 1 / (N - 1);
+    const action = 0.5 * sum / dt;
+    actionReadout.textContent = "action S = " + action.toFixed(4);
+    actx.clearRect(0, 0, W, H);
+    const pad = 46;
+    const px = (u) => pad + u * (W - 2 * pad);
+    const py = (y) => H / 2 - y * 110;
+    actx.strokeStyle = "#14203a";
+    actx.lineWidth = 1;
+    for (let i = 0; i <= 8; i++) {
+      const x = pad + (i / 8) * (W - 2 * pad);
+      actx.beginPath(); actx.moveTo(x, 24); actx.lineTo(x, H - 24); actx.stroke();
+    }
+    for (let i = 0; i <= 4; i++) {
+      const y = 40 + (i / 4) * (H - 80);
+      actx.beginPath(); actx.moveTo(30, y); actx.lineTo(W - 30, y); actx.stroke();
+    }
+    actx.strokeStyle = "#22d3ee";
+    actx.lineWidth = 3;
+    actx.lineJoin = "round";
+    actx.beginPath();
+    ys.forEach((y, i) => {
+      const X = px(xs[i]), Y = py(y);
+      if (i === 0) actx.moveTo(X, Y); else actx.lineTo(X, Y);
+    });
+    actx.stroke();
+    actx.fillStyle = "#a78bfa";
+    for (let i = 0; i < N; i += 4) {
+      actx.beginPath(); actx.arc(px(xs[i]), py(ys[i]), 2.4, 0, Math.PI * 2); actx.fill();
+    }
+    actx.fillStyle = "#93a4c6";
+    actx.font = "13px ui-monospace, Menlo, monospace";
+    actx.fillText("fixed start", pad - 14, py(0.9) - 10);
+    actx.fillText("fixed end", W - pad - 62, py(-0.9) + 22);
+  }
+  actionSlider.addEventListener("input", actionDraw);
+  $("#action-reset").addEventListener("click", () => { actionSlider.value = 0; actionDraw(); });
+
+  const groverCanvas = $("#grover-canvas");
+  const gctx = groverCanvas.getContext("2d");
+  const groverReadout = $("#grover-readout");
+  const GDIM = 32, GTARGET = 13;
+  let groverPsi = new Array(GDIM).fill(1 / Math.sqrt(GDIM));
+  let groverQueries = 0;
+  function groverStep() {
+    const next = groverPsi.slice();
+    next[GTARGET] *= -1;
+    const mean = next.reduce((a, b) => a + b, 0) / GDIM;
+    groverPsi = next.map((v) => 2 * mean - v);
+    groverQueries += 1;
+    groverDraw();
+  }
+  function groverDraw() {
+    const probs = groverPsi.map((v) => v * v);
+    const ptarget = probs[GTARGET];
+    groverReadout.textContent = "query " + groverQueries + " · P(target) = " + ptarget.toFixed(4);
+    gctx.clearRect(0, 0, W, H);
+    const pad = 40, bottom = H - 46;
+    const bw = (W - 2 * pad) / GDIM;
+    const maxP = Math.max.apply(null, probs.concat([0.05]));
+    for (let i = 0; i < GDIM; i++) {
+      const h = (probs[i] / maxP) * (bottom - 30);
+      gctx.fillStyle = i === GTARGET ? "#fbbf24" : "#22d3ee";
+      gctx.globalAlpha = i === GTARGET ? 0.95 : 0.55;
+      gctx.fillRect(pad + i * bw + 1.5, bottom - h, bw - 3, h);
+    }
+    gctx.globalAlpha = 1;
+    gctx.strokeStyle = "#22304f";
+    gctx.beginPath(); gctx.moveTo(pad, bottom + 0.5); gctx.lineTo(W - pad, bottom + 0.5); gctx.stroke();
+    gctx.fillStyle = "#93a4c6";
+    gctx.font = "13px ui-monospace, Menlo, monospace";
+    gctx.fillText("32 basis states · marked state in amber", pad, 24);
+  }
+  function groverReset() {
+    groverPsi = new Array(GDIM).fill(1 / Math.sqrt(GDIM));
+    groverQueries = 0;
+    groverDraw();
+  }
+  $("#grover-step").addEventListener("click", groverStep);
+  $("#grover-reset").addEventListener("click", groverReset);
+
+  const isingCanvas = $("#ising-canvas");
+  const ictx = isingCanvas.getContext("2d");
+  const isingReadout = $("#ising-readout");
+  const isingTemp = $("#ising-temp");
+  const isingTempVal = $("#ising-temp-val");
+  const IL = 44, CELL = isingCanvas.width / IL;
+  let spins = new Int8Array(IL * IL);
+  let autoTimer = null;
+  function isingInit() {
+    for (let i = 0; i < spins.length; i++) spins[i] = Math.random() < 0.5 ? -1 : 1;
+  }
+  function isingSweep() {
+    const T = Number(isingTemp.value);
+    for (let parity = 0; parity < 2; parity++) {
+      for (let y = 0; y < IL; y++) {
+        for (let x = 0; x < IL; x++) {
+          if (((x + y) & 1) !== parity) continue;
+          const i = y * IL + x;
+          const s = spins[i];
+          const nb =
+            spins[((y + 1) % IL) * IL + x] + spins[((y - 1 + IL) % IL) * IL + x] +
+            spins[y * IL + ((x + 1) % IL)] + spins[y * IL + ((x - 1 + IL) % IL)];
+          const dE = 2 * s * nb;
+          if (dE <= 0 || Math.random() < Math.exp(-dE / T)) spins[i] = -s;
+        }
+      }
+    }
+    isingDraw();
+  }
+  function isingDraw() {
+    let sum = 0;
+    for (let i = 0; i < spins.length; i++) sum += spins[i];
+    const mag = sum / spins.length;
+    isingReadout.textContent = "magnetization = " + (mag >= 0 ? "+" : "") + mag.toFixed(3) + " · T = " + Number(isingTemp.value).toFixed(2);
+    for (let y = 0; y < IL; y++) {
+      for (let x = 0; x < IL; x++) {
+        ictx.fillStyle = spins[y * IL + x] > 0 ? "#22d3ee" : "#0b1020";
+        ictx.fillRect(x * CELL, y * CELL, CELL, CELL);
+      }
+    }
+  }
+  $("#ising-sweep").addEventListener("click", () => { for (let i = 0; i < 10; i++) isingSweep(); });
+  $("#ising-auto").addEventListener("click", (event) => {
+    if (autoTimer) {
+      clearInterval(autoTimer); autoTimer = null; event.target.textContent = "Auto";
+    } else {
+      autoTimer = setInterval(isingSweep, 160); event.target.textContent = "Pause";
+    }
+  });
+  $("#ising-reset").addEventListener("click", () => { isingInit(); isingDraw(); });
+  isingTemp.addEventListener("input", () => { isingTempVal.textContent = Number(isingTemp.value).toFixed(2); isingDraw(); });
+
+  const QUESTIONS = [
+    { level: "Warm-up", q: "A free particle in the least-action experiment follows which path?", opts: ["A straight line", "A circle", "A random walk", "A parabola"], a: 0, why: "Minimising the action for a free particle gives constant velocity — a straight line. The experiment recovers it to 3.6 × 10⁻¹⁵." },
+    { level: "Warm-up", q: "What do residual connections protect in a deep network?", opts: ["Gradients reaching early layers", "The learning rate", "The dataset size", "The output vocabulary"], a: 0, why: "Experiment 19 measures the first-layer gradient ratio: roughly 10.1 with residuals versus 1.8 × 10⁻⁹ without — a 5.65 × 10⁹ improvement." },
+    { level: "Warm-up", q: "Quantization primarily reduces…", opts: ["The number of bits per weight", "The number of layers", "The context window", "The vocabulary size"], a: 0, why: "INT8 keeps perplexity at 0.9999× FP32; group-wise INT4 costs 1.10×; naive per-tensor INT4 explodes to 2,863 perplexity — 34× worse." },
+    { level: "Practitioner", q: "Grover's algorithm needs roughly how many queries to find one marked state among N?", opts: ["√N", "N", "N / 2", "log N"], a: 0, why: "At N = 64 the simulation peaks after k = 6 queries, close to π/4·√N, and succeeds with probability 0.9966 — about 10.7× fewer queries than classical search." },
+    { level: "Practitioner", q: "What does BM25 rank documents by?", opts: ["Term overlap weighted by rarity and document length", "Dense embedding similarity", "Random-walk centrality", "Byte-level compression ratio"], a: 0, why: "BM25 is a lexical scorer. On 6,000 newsgroup documents it reaches 37.5% recall@5; TF-IDF cosine reaches 43.9%, and chance is 25%." },
+    { level: "Practitioner", q: "GPS satellite clocks gain about 38.5 μs/day before correction. Why?", opts: ["Gravitational blue-shift outweighs the velocity red-shift", "The receivers are moving", "The ionosphere slows light down", "Satellites operate in vacuum"], a: 0, why: "Experiment 11 recovers +38.50 μs/day: the weaker gravity at 26,560 km speeds the clock more than its orbital velocity slows it. The solution also fixes position to under a metre." },
+    { level: "Pro", q: "Double descent peaks when…", opts: ["The model has just enough capacity to interpolate the training set", "The learning rate is highest", "The dataset is largest", "Dropout is disabled"], a: 0, why: "Experiment 22 peaks at m = 1,400 features against n = 1,257 training points — the interpolation threshold — then error falls to 0.372 in the overparameterised tail." },
+    { level: "Pro", q: "Paged attention's memory advantage comes from…", opts: ["Storing the KV cache in fixed-size blocks allocated on demand", "Skipping attention entirely", "Halving numerical precision", "Caching final outputs"], a: 0, why: "Experiment 18 reproduces dense attention bit-exactly (error 0.0) while wasting 1.8% of memory instead of 79.5% — a 4.8× saving." },
+    { level: "Pro", q: "The spacings of Riemann zeros match which statistics?", opts: ["GUE — random unitary matrices", "Poisson", "Gaussian", "Fibonacci"], a: 0, why: "Across 20,000 zeros, the KS distance to GUE is 0.024 versus 0.304 for Poisson — GUE wins by 12.6×. Pair correlations match Montgomery's prediction." },
+    { level: "Pro", q: "In cliff-walking, why does SARSA learn a safer path than Q-learning?", opts: ["It updates from the action its exploratory policy actually took", "It uses a larger learning rate", "It ignores the reward signal", "It trains offline"], a: 0, why: "Q-learning takes the optimal 13-step path along the cliff; SARSA takes 19 steps but earns −22.2 online return versus −68.7, because it accounts for its own exploration." }
+  ];
+  let qi = 0, score = 0, locked = false, currentOrder = [];
+  const qText = $("#q-text"), qOpts = $("#q-opts"), qFb = $("#q-feedback"), qNext = $("#q-next");
+  const qCount = $("#q-count"), qLevel = $("#q-level"), qBar = $("#q-bar"), scoreEl = $("#score");
+
+  function shuffleOptions(item) {
+    const order = item.opts.map((text, index) => ({ text, correct: index === item.a }));
+    let seed = qi * 7919 + 17;
+    const rand = () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      const swap = order[i];
+      order[i] = order[j];
+      order[j] = swap;
+    }
+    return order;
+  }
+
+  function quizRender() {
+    locked = false;
+    const item = QUESTIONS[qi];
+    currentOrder = shuffleOptions(item);
+    qCount.textContent = "Question " + (qi + 1) + " of " + QUESTIONS.length;
+    qLevel.textContent = item.level;
+    qBar.style.width = ((qi) / QUESTIONS.length) * 100 + "%";
+    qText.textContent = item.q;
+    qOpts.innerHTML = "";
+    qFb.className = "feedback";
+    qFb.textContent = "";
+    qNext.hidden = true;
+    currentOrder.forEach((option, index) => {
+      const button = el("button", "opt", option.text);
+      button.type = "button";
+      button.addEventListener("click", () => answer(index, button));
+      qOpts.appendChild(button);
+    });
+  }
+  function answer(index, button) {
+    if (locked) return;
+    locked = true;
+    const item = QUESTIONS[qi];
+    const correct = currentOrder[index].correct;
+    const correctIndex = currentOrder.findIndex((option) => option.correct);
+    qOpts.querySelectorAll(".opt").forEach((b, i) => {
+      b.disabled = true;
+      if (i === correctIndex) b.classList.add("correct");
+    });
+    if (!correct) button.classList.add("wrong");
+    else score++;
+    scoreEl.textContent = score + " / " + QUESTIONS.length;
+    qFb.className = "feedback show";
+    qFb.innerHTML = "";
+    const label = el("b", null, correct ? "Correct. " : "Not quite. ");
+    qFb.appendChild(label);
+    qFb.appendChild(document.createTextNode(item.why));
+    qNext.hidden = false;
+    qNext.textContent = qi === QUESTIONS.length - 1 ? "See result" : "Next question";
+  }
+  qNext.addEventListener("click", () => {
+    if (qi === QUESTIONS.length - 1) {
+      quizFinish();
+      return;
+    }
+    qi++;
+    quizRender();
+  });
+  function quizFinish() {
+    qBar.style.width = "100%";
+    $("#quiz-stage").style.display = "none";
+    const result = $("#quiz-result");
+    result.classList.add("show");
+    const title = $("#result-title");
+    const text = $("#result-text");
+    if (score === 10) {
+      title.textContent = "Perfect score — you could defend every claim.";
+      text.textContent = "You are reading the experiments, not skimming them. Pick an experiment you found hardest and inspect its checks next.";
+    } else if (score >= 7) {
+      title.textContent = score + " / 10 — strong intuition.";
+      text.textContent = "The gaps are worth chasing: open the relevant experiment and read the measured detail behind the answer.";
+    } else if (score >= 4) {
+      title.textContent = score + " / 10 — a solid start.";
+      text.textContent = "Try the beginner path in the repository README, then replay the quiz. The explanations are the fastest way up the curve.";
+    } else {
+      title.textContent = score + " / 10 — the fun part is that this is fixable.";
+      text.textContent = "Start with the playground, then read three experiments end to end. The quiz will feel different on the second pass.";
+    }
+  }
+  $("#quiz-restart").addEventListener("click", () => {
+    qi = 0; score = 0;
+    scoreEl.textContent = "0 / " + QUESTIONS.length;
+    $("#quiz-stage").style.display = "";
+    $("#quiz-result").classList.remove("show");
+    quizRender();
+  });
+
+  const toast = $("#toast");
+  let toastTimer = null;
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+  document.querySelectorAll("[data-copy]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const target = $(button.getAttribute("data-copy"));
+      const text = target ? target.innerText : "";
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("Copied to clipboard");
+      } catch (error) {
+        showToast("Select the text and copy manually");
+      }
+    });
+  });
+
+  const progress = $("#progress");
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((node) => io.observe(node));
+  } else {
+    document.querySelectorAll(".reveal").forEach((node) => node.classList.add("in"));
+  }
+
+  if ("IntersectionObserver" in window) {
+    const navLinks = Array.from(document.querySelectorAll(".nav-links a[href^='#']"));
+    const sections = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          link.removeAttribute("aria-current");
+          if (link.getAttribute("href") === "#" + entry.target.id) link.setAttribute("aria-current", "true");
+        });
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    sections.forEach((section) => navObserver.observe(section));
+  }
+
+  groverReset();
+  isingInit();
+  isingDraw();
+  actionDraw();
+  quizRender();
+
+  const heroCanvas = $("#hero-canvas");
+  function heroFallback() {
+    const ctx = heroCanvas.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const count = 24;
+    let seed = 42;
+    const rand = () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+    const nodes = Array.from({ length: count }, (_, i) => ({
+      x: rand() * 2 - 1,
+      y: rand() * 2 - 1,
+      z: rand() * 2 - 1,
+      c: Object.values(trackColor)[i % 4]
+    }));
+    function resize() {
+      const rect = heroCanvas.getBoundingClientRect();
+      heroCanvas.width = Math.max(1, Math.round(rect.width * dpr));
+      heroCanvas.height = Math.max(1, Math.round(rect.height * dpr));
+    }
+    let angle = 0;
+    function draw() {
+      const rect = heroCanvas.getBoundingClientRect();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      const cx = rect.width * 0.62, cy = rect.height * 0.5;
+      const scale = Math.min(rect.width, rect.height) * 0.27;
+      const project = (p) => {
+        const ca = Math.cos(angle), sa = Math.sin(angle);
+        const x = p.x * ca - p.z * sa;
+        const z = p.x * sa + p.z * ca;
+        return { x: cx + x * scale, y: cy + p.y * scale, z };
+      };
+      const pts = nodes.map(project);
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, dz = nodes[i].z - nodes[j].z;
+          if (dx * dx + dy * dy + dz * dz < 0.85) {
+            ctx.strokeStyle = "rgba(80,110,170," + (0.28 - pts[i].z * 0.07) + ")";
+            ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke();
+          }
+        }
+      }
+      for (let i = 0; i < pts.length; i++) {
+        ctx.beginPath();
+        ctx.arc(pts[i].x, pts[i].y, 2.3 + pts[i].z * 0.9, 0, Math.PI * 2);
+        ctx.fillStyle = nodes[i].c;
+        ctx.globalAlpha = 0.55 + (pts[i].z + 1) * 0.2;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      angle += 0.0016;
+      if (!reduceMotion) requestAnimationFrame(draw);
+    }
+    resize();
+    window.addEventListener("resize", () => { resize(); draw(); });
+    draw();
+  }
+
+  if (heroCanvas) {
+    const reduced = reduceMotion;
+    (async () => {
+      try {
+        const THREE = await import("./assets/vendor/three.module.min.js");
+        const renderer = new THREE.WebGLRenderer({ canvas: heroCanvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(52, 1, 1, 800);
+        camera.position.z = 150;
+        let seed = 42;
+        const rand = () => {
+          seed = (seed * 1664525 + 1013904223) % 4294967296;
+          return seed / 4294967296;
+        };
+        const palette = Object.values(trackColor);
+        const nodes = [];
+        for (let i = 0; i < 24; i++) {
+          const theta = rand() * Math.PI * 2;
+          const phi = Math.acos(2 * rand() - 1);
+          const radius = 42 + rand() * 30;
+          nodes.push(new THREE.Vector3(
+            radius * Math.sin(phi) * Math.cos(theta),
+            radius * Math.sin(phi) * Math.sin(theta) * 0.72,
+            radius * Math.cos(phi)
+          ));
+        }
+        const positions = [];
+        const colors = [];
+        const color = new THREE.Color();
+        nodes.forEach((node, i) => {
+          positions.push(node.x, node.y, node.z);
+          color.set(palette[i % palette.length]);
+          colors.push(color.r, color.g, color.b);
+        });
+        const pointGeo = new THREE.BufferGeometry();
+        pointGeo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+        pointGeo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+        const spriteCanvas = document.createElement("canvas");
+        spriteCanvas.width = spriteCanvas.height = 64;
+        const spriteCtx = spriteCanvas.getContext("2d");
+        const glow = spriteCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        glow.addColorStop(0, "rgba(255,255,255,1)");
+        glow.addColorStop(0.3, "rgba(255,255,255,0.95)");
+        glow.addColorStop(0.55, "rgba(255,255,255,0.35)");
+        glow.addColorStop(1, "rgba(255,255,255,0)");
+        spriteCtx.fillStyle = glow;
+        spriteCtx.fillRect(0, 0, 64, 64);
+        const sprite = new THREE.CanvasTexture(spriteCanvas);
+        const points = new THREE.Points(pointGeo, new THREE.PointsMaterial({
+          size: 4.2, map: sprite, alphaTest: 0.02, vertexColors: true, transparent: true,
+          opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false
+        }));
+        const group = new THREE.Group();
+        group.add(points);
+        const edges = [];
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            if (nodes[i].distanceTo(nodes[j]) < 58) {
+              edges.push(nodes[i].x, nodes[i].y, nodes[i].z, nodes[j].x, nodes[j].y, nodes[j].z);
+            }
+          }
+        }
+        const edgeGeo = new THREE.BufferGeometry();
+        edgeGeo.setAttribute("position", new THREE.Float32BufferAttribute(edges, 3));
+        group.add(new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({
+          color: 0x33507f, transparent: true, opacity: 0.32
+        })));
+        scene.add(group);
+        const haloGeo = new THREE.IcosahedronGeometry(58, 1);
+        group.add(new THREE.LineSegments(
+          new THREE.WireframeGeometry(haloGeo),
+          new THREE.LineBasicMaterial({ color: 0x1d2a47, transparent: true, opacity: 0.5 })
+        ));
+        let visible = true;
+        const target = { x: 0, y: 0 };
+        const current = { x: 0, y: 0 };
+        window.addEventListener("pointermove", (event) => {
+          target.x = (event.clientX / window.innerWidth - 0.5) * 0.35;
+          target.y = (event.clientY / window.innerHeight - 0.5) * 0.25;
+        }, { passive: true });
+        function resize() {
+          const rect = heroCanvas.getBoundingClientRect();
+          renderer.setSize(rect.width, rect.height, false);
+          camera.aspect = rect.width / Math.max(rect.height, 1);
+          camera.updateProjectionMatrix();
+        }
+        resize();
+        window.addEventListener("resize", resize);
+        document.addEventListener("visibilitychange", () => { visible = !document.hidden; });
+        if ("IntersectionObserver" in window) {
+          new IntersectionObserver((entries) => {
+            entries.forEach((entry) => { visible = entry.isIntersecting && !document.hidden; });
+          }, { threshold: 0.02 }).observe(heroCanvas);
+        }
+        let frame = 0;
+        function animate() {
+          requestAnimationFrame(animate);
+          if (!visible) return;
+          current.x += (target.x - current.x) * 0.04;
+          current.y += (target.y - current.y) * 0.04;
+          group.rotation.y += 0.0018;
+          group.rotation.x = Math.sin(frame * 0.002) * 0.08 + current.y;
+          group.rotation.z = current.x * 0.2;
+          camera.position.x = current.x * 30;
+          camera.position.y = -current.y * 20;
+          camera.lookAt(0, 0, 0);
+          renderer.render(scene, camera);
+          frame++;
+        }
+        if (reduced) {
+          group.rotation.y = 0.6;
+          renderer.render(scene, camera);
+        } else {
+          animate();
+        }
+      } catch (error) {
+        heroFallback();
+      }
+    })();
+  }
+})();
+</script>
+</body>
+</html>

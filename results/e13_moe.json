@@ -1,0 +1,44 @@
+{
+  "name": "e13_moe",
+  "status": "ok",
+  "metrics": {
+    "dense_acc": 0.9466666579246521,
+    "moe_acc": 0.9088888764381409,
+    "routing_entropy_bits": 2.996894598007202,
+    "expert_usage": [
+      0.12338234484195709,
+      0.1085304319858551,
+      0.12306324392557144,
+      0.1265546828508377,
+      0.1213771402835846,
+      0.1263405978679657,
+      0.13203273713588715,
+      0.13871878385543823
+    ],
+    "active_compute_fraction": 0.25
+  },
+  "checks": [
+    {
+      "label": "MoE matches dense accuracy within 3 points",
+      "passed": true,
+      "detail": "dense=0.947, MoE=0.909"
+    },
+    {
+      "label": "MoE routing entropy > 2 bits",
+      "passed": true,
+      "detail": "entropy=3.00 bits"
+    },
+    {
+      "label": "all experts are used (min usage > 2%)",
+      "passed": true,
+      "detail": "usage=[0.12300000339746475, 0.10899999737739563, 0.12300000339746475, 0.12700000405311584, 0.12099999934434891, 0.12600000202655792, 0.13199999928474426, 0.13899999856948853]"
+    },
+    {
+      "label": "only k of n experts are active per token",
+      "passed": true,
+      "detail": "active fraction=0.25"
+    }
+  ],
+  "seconds": 0.6,
+  "error": null
+}

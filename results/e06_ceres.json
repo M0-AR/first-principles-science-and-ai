@@ -1,0 +1,52 @@
+{
+  "name": "e06_ceres",
+  "status": "ok",
+  "metrics": {
+    "n_observations": 42,
+    "noise_arcsec": 2.0,
+    "fit_rms_arcsec": 1.3012215732877621,
+    "elements": {
+      "a": 2.7635261707882615,
+      "e": 0.07969526134309753,
+      "i_deg": 10.632597680304539,
+      "Omega_deg": 83.63160800004935,
+      "omega_deg": 65.98045898457963,
+      "M0_deg": 290.6032694195824
+    },
+    "jpl_elements": {
+      "a": 2.769289292,
+      "e": 0.07687465,
+      "i_deg": 10.591277671
+    },
+    "rediscovery_error_arcmin": 1.710152683097256
+  },
+  "checks": [
+    {
+      "label": "observations fitted at the 2-arcsec noise level",
+      "passed": true,
+      "detail": "RMS residual = 1.30 arcsec over 42 nights"
+    },
+    {
+      "label": "semi-major axis recovered within 2%",
+      "passed": true,
+      "detail": "a = 2.7635 AU vs JPL 2.7693"
+    },
+    {
+      "label": "eccentricity recovered within 0.02",
+      "passed": true,
+      "detail": "e = 0.0797 vs JPL 0.0769"
+    },
+    {
+      "label": "inclination recovered within 1.5 deg",
+      "passed": true,
+      "detail": "|i| = 10.63 deg vs JPL 10.59"
+    },
+    {
+      "label": "11-month position prediction better than 5 arcmin",
+      "passed": true,
+      "detail": "separation = 1.71 arcmin on 1801-12-31"
+    }
+  ],
+  "seconds": 31.13,
+  "error": null
+}

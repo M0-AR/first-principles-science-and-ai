@@ -1,0 +1,31 @@
+{
+  "name": "e15_rag",
+  "status": "ok",
+  "metrics": {
+    "bm25_recall5": 0.3753333333333333,
+    "tfidf_recall5": 0.43866666666666665,
+    "bm25_top1": 0.45666666666666667,
+    "tfidf_top1": 0.47,
+    "n_docs": 6000,
+    "n_queries": 300
+  },
+  "checks": [
+    {
+      "label": "BM25 finds the right category in the top-5 >35% of the time",
+      "passed": true,
+      "detail": "recall@5=0.375 (chance=0.25)"
+    },
+    {
+      "label": "top-1 retrieved document shares the category >40% of the time",
+      "passed": true,
+      "detail": "top-1 category accuracy=0.457 (chance=0.050)"
+    },
+    {
+      "label": "BM25 is competitive with TF-IDF cosine",
+      "passed": true,
+      "detail": "BM25=0.375, TF-IDF=0.439"
+    }
+  ],
+  "seconds": 3.13,
+  "error": null
+}

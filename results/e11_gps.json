@@ -1,0 +1,47 @@
+{
+  "name": "e11_gps",
+  "status": "ok",
+  "metrics": {
+    "n_satellites": 32,
+    "mean_radius_km": 26560.142722529992,
+    "period_min": 717.968411076511,
+    "relativistic_us_per_day": 38.50472918245147,
+    "position_error_m": 0.9871237021169093,
+    "clock_error_ns": 0.4511746920580921,
+    "clock_bias_ns": 81000.0
+  },
+  "checks": [
+    {
+      "label": "parsed a full GPS constellation",
+      "passed": true,
+      "detail": "32 satellites"
+    },
+    {
+      "label": "semi-major axis is GPS-like (26,560 km +- 400)",
+      "passed": true,
+      "detail": "a_mean=26560 km"
+    },
+    {
+      "label": "orbital period is ~11h58m",
+      "passed": true,
+      "detail": "T=718.0 min"
+    },
+    {
+      "label": "relativistic clock offset is ~38.5 us/day",
+      "passed": true,
+      "detail": "offset=38.50 us/day"
+    },
+    {
+      "label": "receiver position recovered to metres",
+      "passed": true,
+      "detail": "3D error=0.99 m (n=18, GDOP=1.4)"
+    },
+    {
+      "label": "receiver clock bias recovered to nanoseconds",
+      "passed": true,
+      "detail": "clock error=0.45 ns (truth 81000 ns)"
+    }
+  ],
+  "seconds": 0.0,
+  "error": null
+}

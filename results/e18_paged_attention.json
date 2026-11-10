@@ -1,0 +1,41 @@
+{
+  "name": "e18_paged_attention",
+  "status": "ok",
+  "metrics": {
+    "attention_error": 0.0,
+    "memory": {
+      "sequences": 1000,
+      "total_tokens": 419715,
+      "paged_reserved": 427504,
+      "naive_reserved": 2048000,
+      "paged_waste": 0.018219712564092938,
+      "naive_waste": 0.79506103515625,
+      "internal_fragmentation": 0.01821971256409297
+    },
+    "block_size": 16
+  },
+  "checks": [
+    {
+      "label": "paged attention equals dense attention",
+      "passed": true,
+      "detail": "max|diff|=0.00e+00 over 300 tokens"
+    },
+    {
+      "label": "paging waste stays under 5%",
+      "passed": true,
+      "detail": "paged waste=0.018"
+    },
+    {
+      "label": "naive reservation wastes >60%",
+      "passed": true,
+      "detail": "naive waste=0.795"
+    },
+    {
+      "label": "paging saves >4x memory vs naive",
+      "passed": true,
+      "detail": "ratio=4.8x"
+    }
+  ],
+  "seconds": 0.01,
+  "error": null
+}

@@ -1,0 +1,36 @@
+{
+  "name": "e12_markov_shakespeare",
+  "status": "ok",
+  "metrics": {
+    "bits_per_char": {
+      "1": 3.58616443828768,
+      "2": 2.956391890664974,
+      "3": 2.559041345799798,
+      "4": 2.407571193768077,
+      "5": 2.4497659707372756,
+      "6": 2.566854207783702
+    },
+    "best_order": 4,
+    "corpus_bytes": 1115394,
+    "vocabulary": 65
+  },
+  "checks": [
+    {
+      "label": "context helps: best order beats the bigram by >20%",
+      "passed": true,
+      "detail": "2.408 vs 3.586 bits/char (order 4)"
+    },
+    {
+      "label": "best context length is 3-5 characters",
+      "passed": true,
+      "detail": "argmin at order 4"
+    },
+    {
+      "label": "beyond the data limit, longer context overfits",
+      "passed": true,
+      "detail": "order6=2.567 vs best=2.408"
+    }
+  ],
+  "seconds": 24.8,
+  "error": null
+}

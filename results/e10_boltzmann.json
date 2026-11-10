@@ -1,0 +1,35 @@
+{
+  "name": "e10_boltzmann",
+  "status": "ok",
+  "metrics": {
+    "ising_tv": 0.009185724909185811,
+    "S_eq": 3.4657359027997265,
+    "S_ordered": 0.6931471805599453,
+    "equipartition": 0.9781471994664207,
+    "rayleigh_ks_p": 0.9577478035741168
+  },
+  "checks": [
+    {
+      "label": "Metropolis reproduces P(E) ~ Omega(E)exp(-E/T)",
+      "passed": true,
+      "detail": "total-variation distance=0.0092"
+    },
+    {
+      "label": "entropy of the typical equilibrium macrostate is larger",
+      "passed": true,
+      "detail": "S(E=-24)=3.47 k_B vs S_ordered=0.69 k_B"
+    },
+    {
+      "label": "equipartition <KE> = kT (2D)",
+      "passed": true,
+      "detail": "<KE>=0.978 vs kT=1.0"
+    },
+    {
+      "label": "speeds follow Maxwell-Boltzmann (Rayleigh)",
+      "passed": true,
+      "detail": "KS p-value=0.958"
+    }
+  ],
+  "seconds": 1.47,
+  "error": null
+}

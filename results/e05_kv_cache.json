@@ -1,0 +1,59 @@
+{
+  "name": "e05_kv_cache",
+  "status": "ok",
+  "metrics": {
+    "layers": 40,
+    "kv_source_layers": [
+      2,
+      8,
+      14,
+      20
+    ],
+    "ratios_at_sources": [
+      2,
+      2,
+      2,
+      1
+    ],
+    "entries_per_token": 2.5,
+    "main_dims": 576,
+    "main_bytes": 288.0,
+    "index_bytes": 68.0,
+    "bytes_per_entry": 356.0,
+    "bytes_per_token": 890.0,
+    "dense_mha_bytes_per_token": 5898240.0,
+    "dense_gqa1_bytes_per_token": 92160.0,
+    "compression_vs_mha": 6627.23595505618,
+    "compression_vs_gqa1": 103.5505617977528,
+    "context_1m_gb": 0.89
+  },
+  "checks": [
+    {
+      "label": "2.5 KV entries per token from source layers",
+      "passed": true,
+      "detail": "entries/token=2.5"
+    },
+    {
+      "label": "356 bytes per KV entry (288 main + 68 index)",
+      "passed": true,
+      "detail": "per-entry=356.0 B (main 288.0 B + index 68.0 B)"
+    },
+    {
+      "label": "890 bytes per token reproduces the published figure",
+      "passed": true,
+      "detail": "bytes/token=890.0"
+    },
+    {
+      "label": "1M-token context fits in under 1 GB",
+      "passed": true,
+      "detail": "0.890 GB"
+    },
+    {
+      "label": "compression vs dense MHA exceeds 1000x",
+      "passed": true,
+      "detail": "6627x vs MHA, 104x vs GQA-1"
+    }
+  ],
+  "seconds": 0.0,
+  "error": null
+}

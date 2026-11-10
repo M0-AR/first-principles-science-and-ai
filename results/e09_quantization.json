@@ -1,0 +1,39 @@
+{
+  "name": "e09_quantization",
+  "status": "ok",
+  "metrics": {
+    "params": 81912576,
+    "ppl_fp32": 84.10311764646056,
+    "ppl_int8": 84.09733518049627,
+    "ppl_int4": 92.75707599734729,
+    "tokens": 16384,
+    "int8_ratio": 0.9999312455218534,
+    "int4_ratio": 1.1028969982690162,
+    "int4_group": 128,
+    "ppl_int4_naive": 2862.9632739926315
+  },
+  "checks": [
+    {
+      "label": "INT8 perplexity within 5% of FP32",
+      "passed": true,
+      "detail": "FP32=84.103, INT8=84.097"
+    },
+    {
+      "label": "group-wise INT4 perplexity within 25% of FP32",
+      "passed": true,
+      "detail": "INT4=92.757"
+    },
+    {
+      "label": "group-wise INT4 beats per-tensor INT4",
+      "passed": true,
+      "detail": "grouped=92.757 vs naive=2862.963"
+    },
+    {
+      "label": "weights shrink 4x (INT8) and 8x (INT4)",
+      "passed": true,
+      "detail": "32->8 bits, 32->4 bits"
+    }
+  ],
+  "seconds": 31.62,
+  "error": null
+}
