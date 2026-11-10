@@ -350,6 +350,16 @@ assets/                    banner, social preview, GIFs, screenshots, video
 
 `preview.html` is a self-contained showcase: no build step, no framework, no analytics. It reads `assets/site-data.js`, a generated snapshot of the 24 results, so the site and the JSON can never disagree.
 
+### Live links
+
+| Entry point | Link | What happens |
+|-------------|------|--------------|
+| `/` | <https://m0-ar.github.io/first-principles-science-and-ai/> | redirects to `preview.html` |
+| `/preview.html` | <https://m0-ar.github.io/first-principles-science-and-ai/preview.html> | canonical showcase |
+| `/docs/preview.html` | <https://m0-ar.github.io/first-principles-science-and-ai/docs/preview.html> | mirror of the showcase, for the `/docs` publishing path |
+
+GitHub Pages is configured to deploy from **`main` / `/ (root)`**. The root `index.html`, root `preview.html`, and `docs/preview.html` mirror are all present, so each of the three links above resolves in a browser with HTTP 200. Asset paths are relative (`assets/…` at the root, `../assets/…` in the mirror), which keeps project Pages URLs under the repository path working.
+
 Open it through a local server so the 3D hero can load its module:
 
 ```bash
@@ -365,7 +375,17 @@ The page ships with a 2D canvas fallback if the 3D module cannot load, respects 
 2. Open **Settings → Pages**.
 3. Under **Build and deployment**, choose **Deploy from a branch**.
 4. Select branch **`main`** and folder **`/ (root)`**, then save.
-5. GitHub serves the site at the Pages URL shown in that panel. `index.html` redirects to `preview.html`; `.nojekyll` is included so static assets are served as-is.
+5. GitHub serves the site at <https://m0-ar.github.io/first-principles-science-and-ai/>. `index.html` redirects to `preview.html`; `.nojekyll` is included so static assets are served as-is, and `docs/preview.html` is a ready mirror for the `/docs` publishing path.
+
+After a deployment, confirm all three entry points return HTTP 200:
+
+```bash
+BASE="https://m0-ar.github.io/first-principles-science-and-ai"
+for p in "" "preview.html" "docs/preview.html"; do
+  printf "%s -> " "/$p"
+  curl -s -o /dev/null -w "%{http_code}\n" "$BASE/$p"
+done
+```
 
 No secrets, environment variables, or server runtime are required.
 
