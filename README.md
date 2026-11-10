@@ -182,7 +182,7 @@ pip install -e ".[torch]"
 
 make smoke        # E01, E08, E20 — about 2 seconds
 make all          # all 24 experiments — about 9 minutes on CPU
-make test         # regression tests — 4 passed
+make test         # regression tests — 20 passed
 ```
 
 Useful variants:
@@ -202,6 +202,20 @@ docker compose up --build
 Results land in `results/<experiment>.json`, figures in `results/figures/`, and the aggregate report in `results/summary.json`. The runner exits non-zero if any check fails.
 
 **Requirements:** Python 3.12, NumPy, SciPy, scikit-learn, Matplotlib, pandas, mpmath, requests, cryptography, and PyTorch (CPU is sufficient). No GPU is required.
+
+### KV-cache budget compiler
+
+E05 does the first-principles KV arithmetic. `scripts/kvbudget.py` turns that arithmetic into a deployment planner for 20 public model configs:
+
+```bash
+python scripts/kvbudget.py --list-models
+python scripts/kvbudget.py --model meta-llama/Llama-3.1-8B-Instruct \
+  --gpu-memory-gb 24 --context 32768 --concurrency 1
+```
+
+It accounts for GQA/MQA/MLA, hybrid sliding-window layers, paged allocation, tensor-parallel KV replication, FP8/INT8/INT4/INT2, and optional eviction. Every plan reports KV bytes per token, maximum context, concurrency, quality risk, and total GPU memory. The formulas, evidence, and limitations are in [`research/2026-kv-cache-best-practices.md`](research/2026-kv-cache-best-practices.md).
+
+`python scripts/kvbudget_bench.py` validates the formulas against a measured OPT-125m cache, a synthetic GPU allocation, and a quantization retrieval test; results are in `results/kvbudget.json`. The compiler is independent of the 24 experiments and does not change their count.
 
 ---
 
@@ -335,10 +349,15 @@ Python 3.12, NumPy, SciPy, scikit-learn, Matplotlib, pandas, mpmath, requests, c
 src/fsl/common.py          result schema, check helper, paths
 src/fsl/registry.py        the 24 experiments
 src/fsl/experiments/       one file per idea
+src/kvbudget/              KV budget compiler (capacity + quality + Pareto)
+data/model_zoo.json        20 public model configs and exact weight sizes
 scripts/run_all.py         runner (--all / --smoke / --list)
+scripts/kvbudget.py        CLI for the KV budget compiler
 scripts/build_site_data.py generates assets/site-data.js from results
 scripts/make_media.py      regenerates the banner, GIFs, and tour video
+research/                  evidence notes behind the compiler
 tests/test_lab.py          registry + import + end-to-end smoke tests
+tests/test_kvbudget.py     deterministic compiler tests
 results/                   metrics JSON + figures, generated
 preview.html               the interactive showcase (single file)
 assets/                    banner, social preview, GIFs, screenshots, video

@@ -1,0 +1,255 @@
+{
+  "generated": "2026-11-11T01:11:19",
+  "ok": true,
+  "checks": [
+    {
+      "name": "Llama-3.1-8B is 128 KiB/token BF16",
+      "passed": true,
+      "detail": "128.00 KiB"
+    },
+    {
+      "name": "Qwen2.5-7B is 56 KiB/token BF16",
+      "passed": true,
+      "detail": "56.00 KiB"
+    },
+    {
+      "name": "Llama-3.1-70B is 320 KiB/token BF16",
+      "passed": true,
+      "detail": "320.00 KiB"
+    },
+    {
+      "name": "TP=8 shards Llama-70B KV to 40 KiB/token/GPU",
+      "passed": true,
+      "detail": "40.00 KiB"
+    },
+    {
+      "name": "TP=16 cannot shrink Llama-70B below one KV head",
+      "passed": true,
+      "detail": "40.00 KiB"
+    },
+    {
+      "name": "DeepSeek-V3 MLA is 70,272 B/token BF16",
+      "passed": true,
+      "detail": "68.62 KiB"
+    },
+    {
+      "name": "Gemma-2-9B hybrid averages 252 KiB/token at 8K",
+      "passed": true,
+      "detail": "252.00 KiB"
+    },
+    {
+      "name": "synthetic BF16 K+V tensor matches formula",
+      "passed": true,
+      "detail": "134217728 vs 134217728 bytes"
+    },
+    {
+      "name": "OPT-125m cache at 128 tokens matches formula",
+      "passed": true,
+      "detail": "4718592 vs 4718592 bytes"
+    },
+    {
+      "name": "OPT-125m cache at 512 tokens matches formula",
+      "passed": true,
+      "detail": "18874368 vs 18874368 bytes"
+    },
+    {
+      "name": "OPT-125m cache at 1024 tokens matches formula",
+      "passed": true,
+      "detail": "37748736 vs 37748736 bytes"
+    },
+    {
+      "name": "OPT-125m cache at 2048 tokens matches formula",
+      "passed": true,
+      "detail": "75497472 vs 75497472 bytes"
+    },
+    {
+      "name": "OPT-125m BF16 retrieval is 100%",
+      "passed": true,
+      "detail": "1.0000"
+    },
+    {
+      "name": "FP8 cache keeps >=99.5% top-1 retrieval",
+      "passed": true,
+      "detail": "1.0000"
+    },
+    {
+      "name": "INT8 cache keeps >=99.5% top-1 retrieval",
+      "passed": true,
+      "detail": "1.0000"
+    },
+    {
+      "name": "INT4 cache keeps >=95% top-1 retrieval",
+      "passed": true,
+      "detail": "1.0000"
+    },
+    {
+      "name": "INT2 is materially worse than INT4",
+      "passed": true,
+      "detail": "top-1 0.5665, relative error 0.221"
+    },
+    {
+      "name": "compiler finds a plan for Llama-8B 32K on 24 GB",
+      "passed": true,
+      "detail": "int4/b64"
+    },
+    {
+      "name": "compiler plan fits the hardware budget",
+      "passed": true,
+      "detail": "17.63 GiB"
+    },
+    {
+      "name": "compiler plans DeepSeek-V3 32K on 16x80 GB",
+      "passed": true,
+      "detail": "bf16/b16"
+    },
+    {
+      "name": "compiler handles MLA on a 24 GB GPU",
+      "passed": true,
+      "detail": "int8/b64"
+    }
+  ],
+  "metrics": {
+    "synthetic": {
+      "skipped": false,
+      "formula": 134217728,
+      "measured": 134217728,
+      "matches": true
+    },
+    "opt125m": {
+      "device": "cuda",
+      "dtype": "bfloat16",
+      "cache": {
+        "128": {
+          "formula": 4718592,
+          "measured": 4718592
+        },
+        "512": {
+          "formula": 18874368,
+          "measured": 18874368
+        },
+        "1024": {
+          "formula": 37748736,
+          "measured": 37748736
+        },
+        "2048": {
+          "formula": 75497472,
+          "measured": 75497472
+        }
+      },
+      "quantization": {
+        "bf16": {
+          "top1": 1.0,
+          "relative_error": 0.0
+        },
+        "fp8": {
+          "top1": 1.0,
+          "relative_error": 0.003135787357880165
+        },
+        "int8": {
+          "top1": 1.0,
+          "relative_error": 0.0007273076381453495
+        },
+        "int4": {
+          "top1": 1.0,
+          "relative_error": 0.01336848001422671
+        },
+        "int2": {
+          "top1": 0.5665147569444444,
+          "relative_error": 0.22087836917489767
+        }
+      },
+      "key_std": 1.1553106307983398
+    },
+    "compiler_llama8_24gb": {
+      "feasible": true,
+      "balanced": {
+        "name": "int4/b64",
+        "model_id": "meta-llama/Llama-3.1-8B-Instruct",
+        "tp": 1,
+        "kv_format": "int4",
+        "eviction": "none",
+        "block_size": 64,
+        "context": 32768,
+        "concurrency": 1,
+        "kv_bytes_per_token": 32768.0,
+        "kv_bytes_per_sequence": 1073741824.0,
+        "kv_pool_bytes": 1073741824,
+        "weights_per_gpu": 16060556376,
+        "reserved_bytes": 1793741824,
+        "total_memory_bytes": 18928040024,
+        "budget_bytes": 22080000000,
+        "max_context": 128896,
+        "max_concurrency": 3,
+        "waste_fraction": 0.0,
+        "quality_risk": 0.05,
+        "speed": 0.9974999999999999,
+        "feasible": true,
+        "reasons": [],
+        "notes": [
+          "larger blocks reduce table overhead but increase padding waste"
+        ]
+      }
+    },
+    "compiler_deepseek_v3_16xh100": {
+      "feasible": true,
+      "plan": {
+        "name": "bf16/b16",
+        "model_id": "deepseek-ai/DeepSeek-V3",
+        "tp": 16,
+        "kv_format": "bf16",
+        "eviction": "none",
+        "block_size": 16,
+        "context": 32768,
+        "concurrency": 1,
+        "kv_bytes_per_token": 70272.0,
+        "kv_bytes_per_sequence": 2302672896.0,
+        "kv_pool_bytes": 2302672896,
+        "weights_per_gpu": 43036670485,
+        "reserved_bytes": 3473741824,
+        "total_memory_bytes": 48813085205,
+        "budget_bytes": 73600000000,
+        "max_context": 163840,
+        "max_concurrency": 11,
+        "waste_fraction": 0.0,
+        "quality_risk": 0.0,
+        "speed": 1.0,
+        "feasible": true,
+        "reasons": [],
+        "notes": [
+          "MLA latent KV is replicated across TP ranks"
+        ]
+      }
+    },
+    "compiler_deepseek_v2_lite_24gb": {
+      "feasible": true,
+      "balanced": {
+        "name": "int8/b64",
+        "model_id": "deepseek-ai/DeepSeek-V2-Lite-Chat",
+        "tp": 2,
+        "kv_format": "int8",
+        "eviction": "none",
+        "block_size": 64,
+        "context": 32768,
+        "concurrency": 1,
+        "kv_bytes_per_token": 15552.0,
+        "kv_bytes_per_sequence": 509607936.0,
+        "kv_pool_bytes": 509607936,
+        "weights_per_gpu": 15706813288,
+        "reserved_bytes": 1793741824,
+        "total_memory_bytes": 18010163048,
+        "budget_bytes": 22080000000,
+        "max_context": 163840,
+        "max_concurrency": 8,
+        "waste_fraction": 0.0,
+        "quality_risk": 0.02,
+        "speed": 1.029,
+        "feasible": true,
+        "reasons": [],
+        "notes": [
+          "larger blocks reduce table overhead but increase padding waste",
+          "MLA latent KV is replicated across TP ranks"
+        ]
+      }
+    }
+  }
+}
